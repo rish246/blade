@@ -2,17 +2,30 @@ import tseslint from "@typescript-eslint/eslint-plugin";
 import tsparser from "@typescript-eslint/parser";
 import reactPlugin from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
-
+import path from "path";
 export default [
     {
-        ignores: ["eslint.config.*", "vite.config.*", "node_modules", "dist"],
+        ignores: [
+            "eslint.config.*",
+            "vite.config.*",
+            "node_modules",
+            "dist",
+            "scripts/*.ts",
+        ],
     },
     {
         files: ["**/*.{ts,tsx,mts}"],
         languageOptions: {
             parser: tsparser,
             parserOptions: {
-                project: ["./apps/web/tsconfig.eslint.json"],
+                project: [
+                    path.resolve(__dirname, "./apps/*/tsconfig.eslint.json"),
+                    path.resolve(
+                        __dirname,
+                        "./packages/*/tsconfig.eslint.json",
+                    ),
+                    path.resolve(__dirname, "./scripts/tsconfig.scripts.json"),
+                ],
                 tsconfigRootDir: process.cwd(),
                 ecmaVersion: "latest",
                 sourceType: "module",
