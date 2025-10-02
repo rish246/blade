@@ -15,7 +15,7 @@
                 "prettier --write"
             ]
         },
-        "format": "prettier --write ."
+ "format": "prettier --write ."
     },
     "keywords": [],
     "author": "",
