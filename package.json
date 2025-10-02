@@ -6,16 +6,16 @@
     "scripts": {
         "lint": "eslint . --ext .ts,.tsx,.mts",
         "prepare": "husky",
-        "lint-staged": {
-            "*.{ts,tsx,js,jsx,mts}": [
-                "eslint --fix",
-                "prettier --write"
-            ],
-            "*.{json,md,css,scss}": [
-                "prettier --write"
-            ]
-        },
- "format": "prettier --write ."
+        "format": "prettier --write ."
+    },
+    "lint-staged": {
+        "*.{ts,tsx,js,jsx,mts}": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.{json,md,css,scss}": [
+            "prettier --write"
+        ]
     },
     "keywords": [],
     "author": "",
