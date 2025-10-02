@@ -8,7 +8,7 @@
         "prepare": "husky",
         "format": "prettier --write ."
     },
-"lint-staged": {
+    "lint-staged": {
         "*.{ts,tsx,js,jsx,mts}": [
             "eslint --fix",
             "prettier --write"
