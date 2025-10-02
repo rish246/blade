@@ -1,0 +1,10 @@
+{
+    "files": [],
+    "references": [
+        { "path": "./packages/ui" },
+        { "path": "./packages/state" },
+        { "path": "./packages/utils" },
+        { "path": "./apps/web" },
+        { "path": "./apps/server" }
+    ]
+}
