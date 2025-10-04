@@ -1,13 +1,23 @@
 {
-    "name": "ui",
+    "name": "@blade/ui",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.10.0"
+    "packageManager": "pnpm@10.10.0",
+    "scripts": {
+        "test": "vitest"
+    },
+    "peerDependencies": {
+        "react": "19.1.1",
+        "react-dom": "19.1.1"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^6.9.1",
+        "jsdom": "^27.0.0",
+        "react": "19.1.1",
+        "react-dom": "19.1.1"
+    }
 }

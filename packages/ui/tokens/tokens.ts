@@ -25,6 +25,14 @@ export const tokens = {
         full: "9999px",
     },
 
+    fontSize: {
+        xs: "4px",
+        sm: "8px",
+        md: "16px",
+        lg: "24px",
+        xl: "32px",
+    },
+
     typography: {
         fontFamily: "'Inter', sans-serif",
         fontSizeSm: "14px",
@@ -51,5 +59,5 @@ export type SpacingToken = keyof typeof tokens.spacing;
 export type RadiusToken = keyof typeof tokens.radii;
 export type TypographyToken = keyof typeof tokens.typography;
 export type ShadowToken = keyof typeof tokens.shadows;
-
+export type FontSizeToken = keyof typeof tokens.fontSize;
 export type TokenCategory = keyof typeof tokens;

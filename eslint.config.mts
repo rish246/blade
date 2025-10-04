@@ -43,7 +43,7 @@ export default [
             react: { version: "detect" },
         },
         rules: {
-            indent: ["error", 4],
+            indent: "off",
             semi: ["error", "always"],
             quotes: ["error", "double"],
             "@typescript-eslint/no-unused-vars": ["warn"],

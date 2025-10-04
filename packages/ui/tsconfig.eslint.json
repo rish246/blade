@@ -1,4 +1,11 @@
 {
     "extends": "./tsconfig.json",
-    "include": ["src", "tokens"]
+    "include": [
+        "src",
+        "tokens",
+        "components",
+        "global.d.ts",
+        "vitest.config.ts",
+        "test"
+    ]
 }
