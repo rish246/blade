@@ -13,7 +13,7 @@ describe("Box", () => {
         const rendered = result.getByText("Hello");
         expect(result.getByText("Hello")).toBeInTheDocument();
 
-        expect(rendered).toHaveStyle(`background: ${tokens.colors.bg}`);
+        expect(rendered).toHaveStyle(`background: ${tokens.colors.none}`);
         expect(rendered).toHaveStyle("padding:0");
         expect(rendered).toHaveStyle(`color: ${tokens.colors.text}`);
         expect(rendered).toHaveStyle("margin:0");
