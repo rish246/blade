@@ -7,7 +7,9 @@
         "lint": "eslint . --ext .ts,.tsx,.mts",
         "prepare": "husky",
         "format": "prettier --write .",
-        "check:contrast": "ts-node scripts/check-contrast.ts"
+        "check:contrast": "ts-node scripts/check-contrast.ts",
+        "ladle": "ladle serve",
+        "ladle:build": "ladle build"
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx,mts}": [
@@ -27,6 +29,7 @@
     "license": "ISC",
     "packageManager": "pnpm@10.10.0",
     "devDependencies": {
+        "@ladle/react": "^5.1.0",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.0",
         "@types/node": "^24.6.2",

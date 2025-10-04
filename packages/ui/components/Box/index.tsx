@@ -37,10 +37,9 @@ const Box = ({
     // I want to give it some default styling
     const margin = m ? tokens.spacing[m] : "0px";
     const padding = p ? tokens.spacing[p] : "0px";
-    const background = tokens.colors[bg || "bg"];
+    const background = tokens.colors[bg || "none"];
     const textColor = tokens.colors[color || "text"];
     const borderRadius = tokens.radii[rounded || "md"];
-
     return (
         <div
             className={className ?? ""}
@@ -51,8 +50,8 @@ const Box = ({
                 color: textColor,
                 borderRadius,
 
-                width: w,
-                height: h,
+                width: w || "auto",
+                height: h || "auto",
 
                 ...style,
             }}
