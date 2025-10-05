@@ -9,6 +9,7 @@ export const tokens = {
         warning: "#f59e0b", // warning state
         error: "#ef4444", // error state
         none: "",
+        transparent: "transparent",
     },
 
     spacing: {
