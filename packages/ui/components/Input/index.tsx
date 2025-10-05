@@ -175,10 +175,13 @@ const Input = ({
                 <Box
                     style={{
                         position: "absolute",
-                        top: "50%",
+                        top: label ? "calc(50% + 12px)" : "50%", // Account for label height
                         transform: "translateY(-50%)",
-                        left: tokens.spacing.md,
-                        overflow: "hidden",
+                        left: tokens.spacing.sm,
+                        pointerEvents: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        zIndex: 1,
                     }}
                 >
                     {leftIcon}
@@ -186,15 +189,20 @@ const Input = ({
             )}
 
             {rightIcon && (
-                <Text
+                <Box
                     style={{
                         position: "absolute",
+                        top: label ? "calc(50% + 12px)" : "50%", // Account for label height
+                        transform: "translateY(-50%)",
                         right: tokens.spacing.sm,
-                        top: "50%",
+                        pointerEvents: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        zIndex: 1,
                     }}
                 >
                     {rightIcon}
-                </Text>
+                </Box>
             )}
 
             {showPasswordToggle && (
@@ -203,9 +211,10 @@ const Input = ({
                     size="sm"
                     style={{
                         position: "absolute",
-                        top: "70%",
+                        top: label ? "calc(50% + 12px)" : "50%", // Account for label height
                         transform: "translateY(-50%)",
-                        right: "-20px",
+                        right: tokens.spacing.xs,
+                        zIndex: 2,
                     }}
                     onClick={() => {
                         setInputType(
@@ -216,7 +225,6 @@ const Input = ({
                     show password
                 </Button>
             )}
-
             <input
                 id={id}
                 className={`input ${className}`}
