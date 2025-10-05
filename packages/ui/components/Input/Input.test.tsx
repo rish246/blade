@@ -508,8 +508,8 @@ describe("Input", () => {
         });
 
         it("does not apply full width by default", () => {
-            render(<Input />);
-            expect(screen.getByRole("textbox")).not.toHaveStyle({
+            const { container } = render(<Input />);
+            expect(container.firstChild).not.toHaveStyle({
                 width: "100%",
             });
         });

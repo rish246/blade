@@ -167,6 +167,7 @@ const Input = ({
             style={{
                 position: "relative",
                 borderColor: tokens.colors.none,
+                ...(fullWidth ? { width: "100%" } : { width: "fit-content" }),
             }}
         >
             {label && getLabel(id)}
@@ -175,7 +176,8 @@ const Input = ({
                     style={{
                         position: "absolute",
                         top: "50%",
-                        width: tokens.spacing.lg,
+                        transform: "translateY(-50%)",
+                        left: tokens.spacing.md,
                         overflow: "hidden",
                     }}
                 >
@@ -187,7 +189,7 @@ const Input = ({
                 <Text
                     style={{
                         position: "absolute",
-                        right: 0,
+                        right: tokens.spacing.sm,
                         top: "50%",
                     }}
                 >
@@ -197,10 +199,13 @@ const Input = ({
 
             {showPasswordToggle && (
                 <Button
+                    variant="ghost"
+                    size="sm"
                     style={{
                         position: "absolute",
-                        right: 0,
-                        top: "50%",
+                        top: "70%",
+                        transform: "translateY(-50%)",
+                        right: "-20px",
                     }}
                     onClick={() => {
                         setInputType(
@@ -223,7 +228,7 @@ const Input = ({
                     ...readonlyStyles,
                     ...(leftIcon ? { paddingLeft: tokens.spacing.xl } : {}),
                     ...(rightIcon ? { paddingRight: tokens.spacing.xl } : {}),
-                    ...(fullWidth ? { width: "100%" } : {}),
+                    width: "100%",
                     ...style,
                 }}
                 type={inputType}
