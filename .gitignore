@@ -47,3 +47,5 @@ yarn.lock
 package-lock.json
 
 .env.example
+
+pnpm-lock.yaml
