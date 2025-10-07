@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, cleanup, waitFor } from "@testing-library/react";
-import { Container } from ".";
+import Container from ".";
 import { vi } from "vitest";
 import { breakpoints } from "../../utils/breakpoints";
 

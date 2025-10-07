@@ -73,7 +73,7 @@ export const ResponsiveContainer = () => (
 
 export const NestedContainers = () => (
     <Container
-        maxWidth="xxl"
+        maxWidth="2xl"
         padding="lg"
         style={{ background: "#fafafa", border: "1px solid #ccc" }}
     >
