@@ -45,7 +45,7 @@ export default [
         rules: {
             indent: "off",
             semi: ["error", "always"],
-            quotes: ["error", "double"],
+            quotes: "off",
             "@typescript-eslint/no-unused-vars": ["warn"],
             "react/react-in-jsx-scope": "off",
             "react-hooks/rules-of-hooks": "error",
