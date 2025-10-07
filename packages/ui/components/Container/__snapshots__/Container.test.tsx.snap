@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Container Component > Snapshot testing > matches default render snapshot 1`] = `
+<DocumentFragment>
+  <div
+    style="width: 100%; box-sizing: border-box; max-width: 1280px; padding-left: 16px; padding-right: 16px; margin: 0px auto;"
+  >
+    Snapshot
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Container Component > Snapshot testing > matches responsive config snapshot 1`] = `
+<DocumentFragment>
+  <div
+    style="width: 100%; box-sizing: border-box; max-width: 100%; padding-left: 16px; padding-right: 16px; margin: 0px auto;"
+  >
+    SnapshotResponsive
+  </div>
+</DocumentFragment>
+`;
