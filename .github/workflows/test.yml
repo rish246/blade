@@ -1,0 +1,40 @@
+name: 🧪 UI Package Tests
+
+on:
+    push: # ✅ Runs on ALL branches for every push
+    pull_request: # ✅ Also runs on every PR
+
+jobs:
+    test-ui:
+        name: Run UI Package Tests
+        runs-on: ubuntu-latest
+
+        defaults:
+            run:
+                working-directory: packages/ui
+
+        steps:
+            - name: 🛠️ Checkout repository
+              uses: actions/checkout@v4
+
+            - name: ⚙️ Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: "pnpm"
+
+            - name: 📦 Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: 9
+                  run_install: true
+
+            - name: 📁 Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: 🧩 Build dependencies (optional)
+              run: pnpm build --filter ./packages/ui
+              continue-on-error: true
+
+            - name: 🧪 Run tests
+              run: pnpm test
