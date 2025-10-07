@@ -1,5 +1,5 @@
 import type { CSSProperties, PropsWithChildren } from "react";
-import { SpacingToken, tokens } from "../../tokens/tokens";
+import { tokens } from "../../tokens/tokens";
 
 type StackProps = PropsWithChildren<{
     direction?: CSSProperties["flexDirection"];

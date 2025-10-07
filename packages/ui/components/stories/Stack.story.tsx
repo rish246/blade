@@ -1,4 +1,3 @@
-import Box from "../Box";
 import Text from "../Text";
 import Stack from "../Stack";
 
