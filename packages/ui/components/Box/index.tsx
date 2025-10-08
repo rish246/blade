@@ -38,9 +38,6 @@ const Box = ({
     const textColor =
         color in theme.colors ? (theme as any).colors[color] : color;
 
-    useEffect(() => {
-        console.log({ theme });
-    }, [theme]);
     const borderRadius = theme.radii[rounded || "md"];
     return (
         <div
@@ -54,7 +51,6 @@ const Box = ({
 
                 width: w || "auto",
                 height: h || "auto",
-
                 ...style,
             }}
             {...rest}

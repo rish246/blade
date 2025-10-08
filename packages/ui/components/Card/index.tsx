@@ -1,6 +1,7 @@
 import { CSSProperties, ReactNode } from "react";
-import { ColorToken, SpacingToken, tokens } from "../../theme/tokens/tokens";
 import Box from "../Box";
+import { useTheme } from "../../theme/theme-provider";
+import { ColorToken, SpacingToken, Theme } from "../../theme/Theme";
 
 type CardVariant = "default" | "elevated" | "outlined" | "filled";
 type CardBorderRadius = "none" | "sm" | "md" | "lg";
@@ -27,7 +28,10 @@ type CardBaseProps = {
 export type CardProps = CardBaseProps &
     Omit<React.ComponentPropsWithoutRef<"div">, keyof CardBaseProps>;
 
-const getVariantStyles = (variant: CardVariant): CSSProperties => {
+const getVariantStyles = (
+    tokens: Theme,
+    variant: CardVariant,
+): CSSProperties => {
     switch (variant) {
         case "elevated":
             return {
@@ -96,6 +100,8 @@ const Card = ({
     onClick,
     ...rest
 }: CardProps) => {
+    const { theme } = useTheme();
+
     const isClickable = !!onClick && !disabled;
 
     const handleClick = (e: React.MouseEvent) => {
@@ -117,17 +123,17 @@ const Card = ({
         }
     };
 
-    const variantStyles = getVariantStyles(variant);
+    const variantStyles = getVariantStyles(theme, variant);
     const borderRadiusToken = getBorderRadiusToken(borderRadius);
 
     const baseStyles: CSSProperties = {
-        fontFamily: tokens.typography.fontFamily,
+        fontFamily: theme.typography.fontFamily,
         color: color || "text",
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
         transition: "all 0.2s ease",
-        padding: tokens.spacing[padding || "md"],
+        padding: theme.spacing[padding || "md"],
         ...variantStyles,
         ...(isClickable ? { cursor: "pointer" } : {}),
         ...(disabled ? { opacity: "0.5", cursor: "not-allowed" } : {}),
@@ -180,20 +186,20 @@ const Card = ({
                 <Box
                     p={padding}
                     style={{
-                        borderBottom: `1px solid ${tokens.colors.muted}`,
+                        borderBottom: `1px solid ${theme.colors.muted}`,
                     }}
                 >
                     {header}
                 </Box>
             )}
 
-            <Box p={padding}>{children}</Box>
+            {children}
 
             {footer && (
                 <Box
                     p={padding}
                     style={{
-                        borderTop: `1px solid ${tokens.colors.muted}`,
+                        borderTop: `1px solid ${theme.colors.muted}`,
                         marginTop: "auto",
                     }}
                 >
