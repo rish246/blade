@@ -1,13 +1,4 @@
 {
     "extends": "./tsconfig.json",
-    "include": [
-        "src",
-        "tokens",
-        "components",
-        "global.d.ts",
-        "vitest.config.ts",
-        "test",
-        "stories",
-        "index.tsx"
-    ]
+    "include": ["./**/*"]
 }

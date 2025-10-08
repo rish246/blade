@@ -23,13 +23,11 @@ describe("Text", () => {
     it("applies default typography styles", () => {
         render(<Text>Default</Text>);
         const el = screen.getByText("Default");
-
-        // Check inline styles directly from the style attribute
         expect(el).toHaveStyle({
             fontFamily: tokens.typography.fontFamily,
-            fontSize: `${tokens.typography.fontSizeMd}px`, // Note: add 'px' if tokens are numbers
-            lineHeight: `${tokens.typography.lineHeightMd}px`,
-            fontWeight: `${tokens.typography.fontWeightNormal}`,
+            fontSize: tokens.typography.fontSizeMd,
+            lineHeight: tokens.typography.lineHeightMd,
+            fontWeight: tokens.typography.fontWeightNormal,
             textAlign: "left",
         });
     });
