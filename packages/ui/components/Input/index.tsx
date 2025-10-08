@@ -1,9 +1,10 @@
 import { CSSProperties, ReactElement, useState } from "react";
-import { tokens } from "../../theme/tokens/tokens";
 import Box from "../Box";
 import Text from "../Text";
 import "./Input.css";
 import Button from "../Button";
+import { useTheme } from "../../theme/theme-provider";
+import { Theme } from "../../theme/Theme";
 export type InputSize = "sm" | "md" | "lg";
 export type InputVariant = "default" | "error" | "success";
 
@@ -23,46 +24,49 @@ export type InputProps = Omit<
     showPasswordToggle?: boolean;
 };
 
-const getSizeStyles = (size: InputSize): CSSProperties => {
+const getSizeStyles = (theme: Theme, size: InputSize): CSSProperties => {
     switch (size) {
         case "lg": {
             return {
-                padding: `${tokens.spacing.md} ${tokens.spacing.lg}`,
-                fontSize: tokens.typography.fontSizeLg,
+                padding: `${theme.spacing.md} ${theme.spacing.lg}`,
+                fontSize: theme.typography.fontSizeLg,
             };
         }
 
         case "md": {
             return {
-                padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
-                fontSize: tokens.typography.fontSizeMd,
+                padding: `${theme.spacing.sm} ${theme.spacing.md}`,
+                fontSize: theme.typography.fontSizeMd,
             };
         }
 
         case "sm": {
             return {
-                padding: `${tokens.spacing.xs} ${tokens.spacing.sm}`,
-                fontSize: tokens.typography.fontSizeSm,
+                padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
+                fontSize: theme.typography.fontSizeSm,
             };
         }
     }
 };
 
-const getVariantStyles = (variant: InputVariant): CSSProperties => {
+const getVariantStyles = (
+    theme: Theme,
+    variant: InputVariant,
+): CSSProperties => {
     switch (variant) {
         case "default": {
             return {
-                borderColor: tokens.colors.muted,
+                borderColor: theme.colors.muted,
             };
         }
         case "success": {
             return {
-                borderColor: tokens.colors.success,
+                borderColor: theme.colors.success,
             };
         }
         case "error": {
             return {
-                borderColor: tokens.colors.error,
+                borderColor: theme.colors.error,
             };
         }
     }
@@ -78,12 +82,12 @@ const getDisabledStyles = (disabled: boolean): CSSProperties => {
     return {};
 };
 
-const getReadOnlyStyle = (readonly: boolean): CSSProperties => {
+const getReadOnlyStyle = (theme: Theme, readonly: boolean): CSSProperties => {
     if (!readonly) {
         return {};
     }
     return {
-        backgroundColor: tokens.colors.surface,
+        backgroundColor: theme.colors.surface,
     };
 };
 
@@ -122,11 +126,12 @@ const Input = ({
     ...rest
 }: InputProps) => {
     const [inputType, setInputType] = useState<typeof type>(type);
-    const sizeStyles = getSizeStyles(size);
+    const { theme } = useTheme();
+    const sizeStyles = getSizeStyles(theme, size);
     const finalVariant = error ? "error" : variant;
-    const variantStyles = getVariantStyles(finalVariant);
+    const variantStyles = getVariantStyles(theme, finalVariant);
     const disabledStyles = getDisabledStyles(disabled);
-    const readonlyStyles = getReadOnlyStyle(readOnly);
+    const readonlyStyles = getReadOnlyStyle(theme, readOnly);
     const errorId = error && id ? `${id}-error` : "";
     const finalRole = getRole(type);
     // const errorId = error ?
@@ -166,7 +171,7 @@ const Input = ({
         <Box
             style={{
                 position: "relative",
-                borderColor: tokens.colors.none,
+                borderColor: theme.colors.none,
                 ...(fullWidth ? { width: "100%" } : { width: "fit-content" }),
             }}
         >
@@ -177,7 +182,7 @@ const Input = ({
                         position: "absolute",
                         top: label ? "calc(50% + 12px)" : "50%", // Account for label height
                         transform: "translateY(-50%)",
-                        left: tokens.spacing.sm,
+                        left: theme.spacing.sm,
                         pointerEvents: "none",
                         display: "flex",
                         alignItems: "center",
@@ -194,7 +199,7 @@ const Input = ({
                         position: "absolute",
                         top: label ? "calc(50% + 12px)" : "50%", // Account for label height
                         transform: "translateY(-50%)",
-                        right: tokens.spacing.sm,
+                        right: theme.spacing.sm,
                         pointerEvents: "none",
                         display: "flex",
                         alignItems: "center",
@@ -213,7 +218,7 @@ const Input = ({
                         position: "absolute",
                         top: label ? "calc(50% + 12px)" : "50%", // Account for label height
                         transform: "translateY(-50%)",
-                        right: tokens.spacing.xs,
+                        right: theme.spacing.xs,
                         zIndex: 2,
                     }}
                     onClick={() => {
@@ -234,9 +239,11 @@ const Input = ({
                     ...variantStyles,
                     ...disabledStyles,
                     ...readonlyStyles,
-                    ...(leftIcon ? { paddingLeft: tokens.spacing.xl } : {}),
-                    ...(rightIcon ? { paddingRight: tokens.spacing.xl } : {}),
+                    ...(leftIcon ? { paddingLeft: theme.spacing.xl } : {}),
+                    ...(rightIcon ? { paddingRight: theme.spacing.xl } : {}),
                     width: "100%",
+                    backgroundColor: theme.colors.bg,
+                    color: theme.colors.text,
                     ...style,
                 }}
                 type={inputType}

@@ -1,6 +1,5 @@
 import type { CSSProperties, PropsWithChildren } from "react";
-import { tokens } from "../../theme/tokens/tokens";
-
+import { baseTheme } from "../../theme/tokens";
 type StackProps = PropsWithChildren<{
     direction?: CSSProperties["flexDirection"];
     align?: CSSProperties["alignItems"];
@@ -26,7 +25,7 @@ const Stack = ({
     const alignItems = align || "center";
     const justifyContent = justify || "center";
     const flexWrap = wrap || "nowrap";
-    const flexGap = gap || tokens.spacing.sm;
+    const flexGap = gap || baseTheme.spacing.sm;
     return (
         <div
             style={{

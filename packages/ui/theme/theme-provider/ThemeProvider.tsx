@@ -46,7 +46,6 @@ export const ThemeProvider = ({
     initialTheme = "light",
 }: PropsWithChildren<{ initialTheme?: ThemeName }>) => {
     const [themeName, setThemeName] = useState<ThemeName>(() => {
-        // get theem from localStorage
         if (typeof window !== "undefined") {
             return (localStorage.getItem("theme") as ThemeName) || initialTheme;
         }
