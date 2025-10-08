@@ -1,4 +1,6 @@
-export const tokens = {
+import { Theme } from "../Theme";
+
+export const baseTheme: Theme = {
     colors: {
         bg: "#ffffff", // page background
         surface: "#f9fafb", // card / elevated surfaces
@@ -59,11 +61,3 @@ export const tokens = {
         lg: "0 10px 15px rgba(0, 0, 0, 0.15)",
     },
 } as const;
-
-// Types for autocompletion
-export type ColorToken = keyof typeof tokens.colors;
-export type SpacingToken = keyof typeof tokens.spacing;
-export type RadiusToken = keyof typeof tokens.radii;
-export type TypographyToken = keyof typeof tokens.typography;
-export type ShadowToken = keyof typeof tokens.shadows;
-export type TokenCategory = keyof typeof tokens;

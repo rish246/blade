@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from "react";
-import { ColorToken, SpacingToken, tokens } from "../../tokens/tokens";
+import { ColorToken, SpacingToken, tokens } from "../../theme/tokens/tokens";
 import Box from "../Box";
 
 type CardVariant = "default" | "elevated" | "outlined" | "filled";

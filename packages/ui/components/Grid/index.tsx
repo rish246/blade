@@ -4,7 +4,7 @@ import {
     getActiveBreakpoint,
     breakpoints,
 } from "../../utils/breakpoints";
-import { SpacingToken, tokens } from "../../tokens/tokens";
+import { SpacingToken, tokens } from "../../theme/tokens/tokens";
 import Box from "../Box";
 
 type GridAlign = "start" | "center" | "end" | "stretch";

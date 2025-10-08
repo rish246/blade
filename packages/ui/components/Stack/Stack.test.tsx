@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Stack from "./index";
-import { tokens } from "../../tokens/tokens";
+import { tokens } from "../../theme/tokens/tokens";
 
 describe("Stack", () => {
     it("renders children", () => {

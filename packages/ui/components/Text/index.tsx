@@ -1,5 +1,5 @@
 import type { ReactNode, CSSProperties, ElementType } from "react";
-import { tokens } from "../../tokens/tokens";
+import { tokens } from "../../theme/tokens/tokens";
 
 type TextSize = "sm" | "md" | "lg" | "xl" | "2xl";
 type TextWeight = "normal" | "medium" | "bold";

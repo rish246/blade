@@ -2,7 +2,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import Input from ".";
-import { tokens } from "../../tokens/tokens";
+import { tokens } from "../../theme/tokens/tokens";
 import { useState } from "react";
 
 describe("Input", () => {

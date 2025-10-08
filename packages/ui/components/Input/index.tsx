@@ -1,5 +1,5 @@
 import { CSSProperties, ReactElement, useState } from "react";
-import { tokens } from "../../tokens/tokens";
+import { tokens } from "../../theme/tokens/tokens";
 import Box from "../Box";
 import Text from "../Text";
 import "./Input.css";

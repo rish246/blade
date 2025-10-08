@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from "react";
-import { tokens } from "../../tokens/tokens";
+import { tokens } from "../../theme/tokens/tokens";
 import Box from "../Box";
 import Button from "../Button";
 import Text from "../Text";

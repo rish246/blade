@@ -2,20 +2,24 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Button from ".";
-import { tokens } from "../../tokens/tokens";
+import { lightTheme } from "../../theme/tokens";
+import { ThemeProvider } from "../../theme/theme-provider";
 
 describe("Button", () => {
+    const renderWithTheme = (ui: React.ReactNode) =>
+        render(<ThemeProvider initialTheme="light">{ui}</ThemeProvider>);
     // ==================== RENDERING ====================
+    const tokens = lightTheme;
     describe("Rendering", () => {
         it("renders with children text", () => {
-            render(<Button>Click me</Button>);
+            renderWithTheme(<Button>Click me</Button>);
             expect(
                 screen.getByRole("button", { name: "Click me" }),
             ).toBeInTheDocument();
         });
 
         it("renders with JSX children", () => {
-            render(
+            renderWithTheme(
                 <Button>
                     <span>Icon</span>
                     <span>Text</span>
@@ -26,7 +30,7 @@ describe("Button", () => {
         });
 
         it("renders without children", () => {
-            render(<Button aria-label="Empty button" />);
+            renderWithTheme(<Button aria-label="Empty button" />);
             expect(screen.getByRole("button")).toBeInTheDocument();
         });
     });
@@ -34,7 +38,7 @@ describe("Button", () => {
     // ==================== VARIANTS ====================
     describe("Variants", () => {
         it("applies primary variant styles", () => {
-            render(<Button variant="primary">Primary</Button>);
+            renderWithTheme(<Button variant="primary">Primary</Button>);
             const button = screen.getByRole("button");
             expect(button).toHaveStyle({
                 backgroundColor: tokens.colors.accent,
@@ -42,7 +46,7 @@ describe("Button", () => {
         });
 
         it("applies secondary variant styles", () => {
-            render(<Button variant="secondary">Secondary</Button>);
+            renderWithTheme(<Button variant="secondary">Secondary</Button>);
             const button = screen.getByRole("button");
             expect(button).toHaveStyle({
                 backgroundColor: tokens.colors.surface,
@@ -50,7 +54,7 @@ describe("Button", () => {
         });
 
         it("applies outline variant styles", () => {
-            render(<Button variant="outline">Outline</Button>);
+            renderWithTheme(<Button variant="outline">Outline</Button>);
             const button = screen.getByRole("button");
             expect(button.style.backgroundColor).toBe(
                 tokens.colors.transparent,
@@ -58,7 +62,7 @@ describe("Button", () => {
         });
 
         it("applies ghost variant styles", () => {
-            render(<Button variant="ghost">Ghost</Button>);
+            renderWithTheme(<Button variant="ghost">Ghost</Button>);
             const button = screen.getByRole("button");
             expect(button.style.backgroundColor).toBe(
                 tokens.colors.transparent,
@@ -66,7 +70,7 @@ describe("Button", () => {
         });
 
         it("applies danger variant styles", () => {
-            render(<Button variant="danger">Danger</Button>);
+            renderWithTheme(<Button variant="danger">Danger</Button>);
             const button = screen.getByRole("button");
             expect(button).toHaveStyle({
                 backgroundColor: tokens.colors.error,
@@ -74,7 +78,7 @@ describe("Button", () => {
         });
 
         it("defaults to primary variant when not specified", () => {
-            render(<Button>Default</Button>);
+            renderWithTheme(<Button>Default</Button>);
             const button = screen.getByRole("button");
             expect(button).toHaveStyle({
                 backgroundColor: tokens.colors.accent,
@@ -85,7 +89,7 @@ describe("Button", () => {
     // // ==================== SIZES ====================
     describe("Sizes", () => {
         it("applies small size styles", () => {
-            render(<Button size="sm">Small</Button>);
+            renderWithTheme(<Button size="sm">Small</Button>);
             const button = screen.getByRole("button");
             expect(button).toHaveStyle({
                 padding: `${tokens.spacing.xs} ${tokens.spacing.sm}`,
@@ -94,7 +98,7 @@ describe("Button", () => {
         });
 
         it("applies medium size styles", () => {
-            render(<Button size="md">Medium</Button>);
+            renderWithTheme(<Button size="md">Medium</Button>);
             const button = screen.getByRole("button");
             expect(button).toHaveStyle({
                 padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
@@ -103,7 +107,7 @@ describe("Button", () => {
         });
 
         it("applies large size styles", () => {
-            render(<Button size="lg">Large</Button>);
+            renderWithTheme(<Button size="lg">Large</Button>);
             const button = screen.getByRole("button");
             expect(button).toHaveStyle({
                 padding: `${tokens.spacing.md} ${tokens.spacing.lg}`,
@@ -112,7 +116,7 @@ describe("Button", () => {
         });
 
         it("defaults to medium size when not specified", () => {
-            render(<Button>Default Size</Button>);
+            renderWithTheme(<Button>Default Size</Button>);
             const button = screen.getByRole("button");
             expect(button).toHaveStyle({
                 fontSize: tokens.typography.fontSizeMd,
@@ -123,13 +127,13 @@ describe("Button", () => {
     // // ==================== DISABLED STATE ====================
     describe("Disabled State", () => {
         it("renders as disabled when disabled prop is true", () => {
-            render(<Button disabled>Disabled</Button>);
+            renderWithTheme(<Button disabled>Disabled</Button>);
             const button = screen.getByRole("button");
             expect(button).toBeDisabled();
         });
 
         it("applies disabled styles", () => {
-            render(<Button disabled>Disabled</Button>);
+            renderWithTheme(<Button disabled>Disabled</Button>);
             const button = screen.getByRole("button");
             expect(button).toHaveStyle({
                 opacity: "0.5",
@@ -139,7 +143,7 @@ describe("Button", () => {
 
         it("does not call onClick when disabled", async () => {
             const handleClick = vi.fn();
-            render(
+            renderWithTheme(
                 <Button disabled onClick={handleClick}>
                     Disabled
                 </Button>,
@@ -151,7 +155,7 @@ describe("Button", () => {
 
         it("prevents keyboard interaction when disabled", () => {
             const handleClick = vi.fn();
-            render(
+            renderWithTheme(
                 <Button disabled onClick={handleClick}>
                     Disabled
                 </Button>,
@@ -163,7 +167,7 @@ describe("Button", () => {
         });
 
         it("is not disabled by default", () => {
-            render(<Button>Enabled</Button>);
+            renderWithTheme(<Button>Enabled</Button>);
             expect(screen.getByRole("button")).not.toBeDisabled();
         });
     });
@@ -171,7 +175,7 @@ describe("Button", () => {
     // // ==================== LOADING STATE ====================
     describe("Loading State", () => {
         it("shows loading indicator when loading", () => {
-            render(<Button loading>Loading</Button>);
+            renderWithTheme(<Button loading>Loading</Button>);
             expect(screen.getByRole("button")).toHaveAttribute(
                 "aria-busy",
                 "true",
@@ -179,13 +183,13 @@ describe("Button", () => {
         });
 
         it("disables button when loading", () => {
-            render(<Button loading>Loading</Button>);
+            renderWithTheme(<Button loading>Loading</Button>);
             expect(screen.getByRole("button")).toBeDisabled();
         });
 
         it("does not call onClick when loading", async () => {
             const handleClick = vi.fn();
-            render(
+            renderWithTheme(
                 <Button loading onClick={handleClick}>
                     Loading
                 </Button>,
@@ -195,20 +199,20 @@ describe("Button", () => {
         });
 
         it.skip("shows loading spinner", () => {
-            render(<Button loading>Loading</Button>);
+            renderWithTheme(<Button loading>Loading</Button>);
             // Assuming you have a loading spinner with test id or aria-label
             expect(screen.getByRole("button")).toContainHTML("Loading");
         });
 
         it("hides button text when loading and loadingText is not provided", () => {
-            render(<Button loading>Click me</Button>);
+            renderWithTheme(<Button loading>Click me</Button>);
             const button = screen.getByRole("button");
             // Text should be visually hidden but accessible
             expect(button).toBeInTheDocument();
         });
 
         it("shows custom loading text when provided", () => {
-            render(
+            renderWithTheme(
                 <Button loading loadingText="Please wait...">
                     Submit
                 </Button>,
@@ -220,14 +224,14 @@ describe("Button", () => {
     // // ==================== FULL WIDTH ====================
     describe("Full Width", () => {
         it("applies full width styles when fullWidth is true", () => {
-            render(<Button fullWidth>Full Width</Button>);
+            renderWithTheme(<Button fullWidth>Full Width</Button>);
             expect(screen.getByRole("button")).toHaveStyle({
                 width: "100%",
             });
         });
 
         it("does not apply full width by default", () => {
-            render(<Button>Normal Width</Button>);
+            renderWithTheme(<Button>Normal Width</Button>);
             expect(screen.getByRole("button")).not.toHaveStyle({
                 width: "100%",
             });
@@ -238,14 +242,14 @@ describe("Button", () => {
     describe("Click Interactions", () => {
         it("calls onClick handler when clicked", async () => {
             const handleClick = vi.fn();
-            render(<Button onClick={handleClick}>Click me</Button>);
+            renderWithTheme(<Button onClick={handleClick}>Click me</Button>);
             await userEvent.click(screen.getByRole("button"));
             expect(handleClick).toHaveBeenCalledTimes(1);
         });
 
         it("calls onClick with event object", async () => {
             const handleClick = vi.fn();
-            render(<Button onClick={handleClick}>Click me</Button>);
+            renderWithTheme(<Button onClick={handleClick}>Click me</Button>);
             await userEvent.click(screen.getByRole("button"));
             expect(handleClick).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -256,7 +260,7 @@ describe("Button", () => {
 
         it("handles multiple clicks", async () => {
             const handleClick = vi.fn();
-            render(<Button onClick={handleClick}>Click me</Button>);
+            renderWithTheme(<Button onClick={handleClick}>Click me</Button>);
             const button = screen.getByRole("button");
             await userEvent.click(button);
             await userEvent.click(button);
@@ -265,7 +269,7 @@ describe("Button", () => {
         });
 
         it("works without onClick handler", async () => {
-            render(<Button>No handler</Button>);
+            renderWithTheme(<Button>No handler</Button>);
             await userEvent.click(screen.getByRole("button"));
             // Should not throw error
         });
@@ -275,7 +279,7 @@ describe("Button", () => {
     describe("Keyboard Interactions", () => {
         it("triggers onClick when Enter key is pressed", () => {
             const handleClick = vi.fn();
-            render(<Button onClick={handleClick}>Press Enter</Button>);
+            renderWithTheme(<Button onClick={handleClick}>Press Enter</Button>);
             const button = screen.getByRole("button");
             fireEvent.keyDown(button, { key: "Enter", code: "Enter" });
             expect(handleClick).toHaveBeenCalledTimes(1);
@@ -283,7 +287,7 @@ describe("Button", () => {
 
         it("triggers onClick when Space key is pressed", () => {
             const handleClick = vi.fn();
-            render(<Button onClick={handleClick}>Press Space</Button>);
+            renderWithTheme(<Button onClick={handleClick}>Press Space</Button>);
             const button = screen.getByRole("button");
             fireEvent.keyDown(button, { key: " ", code: "Space" });
             expect(handleClick).toHaveBeenCalledTimes(1);
@@ -291,7 +295,7 @@ describe("Button", () => {
 
         it("does not trigger onClick for other keys", () => {
             const handleClick = vi.fn();
-            render(<Button onClick={handleClick}>Other Keys</Button>);
+            renderWithTheme(<Button onClick={handleClick}>Other Keys</Button>);
             const button = screen.getByRole("button");
             fireEvent.keyDown(button, { key: "a" });
             fireEvent.keyDown(button, { key: "Tab" });
@@ -299,14 +303,14 @@ describe("Button", () => {
         });
 
         it("is focusable by default", () => {
-            render(<Button>Focusable</Button>);
+            renderWithTheme(<Button>Focusable</Button>);
             const button = screen.getByRole("button");
             button.focus();
             expect(button).toHaveFocus();
         });
 
         it("is not focusable when disabled", () => {
-            render(<Button disabled>Not Focusable</Button>);
+            renderWithTheme(<Button disabled>Not Focusable</Button>);
             const button = screen.getByRole("button");
             button.focus();
             expect(button).not.toHaveFocus();
@@ -316,12 +320,14 @@ describe("Button", () => {
     // // ==================== CUSTOM STYLING ====================
     describe("Custom Styling", () => {
         it("applies custom className", () => {
-            render(<Button className="custom-class">Custom Class</Button>);
+            renderWithTheme(
+                <Button className="custom-class">Custom Class</Button>,
+            );
             expect(screen.getByRole("button")).toHaveClass("custom-class");
         });
 
         it("merges custom styles with default styles", () => {
-            render(
+            renderWithTheme(
                 <Button
                     style={{ marginTop: "20px", backgroundColor: "purple" }}
                 >
@@ -335,7 +341,7 @@ describe("Button", () => {
         });
 
         it("custom styles override default styles", () => {
-            render(
+            renderWithTheme(
                 <Button variant="primary" style={{ backgroundColor: "orange" }}>
                     Override
                 </Button>,
@@ -349,19 +355,21 @@ describe("Button", () => {
     // // ==================== ACCESSIBILITY ====================
     describe("Accessibility", () => {
         it("has button role by default", () => {
-            render(<Button>Accessible</Button>);
+            renderWithTheme(<Button>Accessible</Button>);
             expect(screen.getByRole("button")).toBeInTheDocument();
         });
 
         it("accepts aria-label", () => {
-            render(<Button aria-label="Custom label">Icon Only</Button>);
+            renderWithTheme(
+                <Button aria-label="Custom label">Icon Only</Button>,
+            );
             expect(screen.getByRole("button")).toHaveAccessibleName(
                 "Custom label",
             );
         });
 
         it("accepts aria-describedby", () => {
-            render(
+            renderWithTheme(
                 <>
                     <Button aria-describedby="description">Button</Button>
                     <div id="description">Button description</div>
@@ -374,7 +382,7 @@ describe("Button", () => {
         });
 
         it("sets aria-disabled when disabled", () => {
-            render(<Button disabled>Disabled</Button>);
+            renderWithTheme(<Button disabled>Disabled</Button>);
             expect(screen.getByRole("button")).toHaveAttribute(
                 "aria-disabled",
                 "true",
@@ -382,7 +390,7 @@ describe("Button", () => {
         });
 
         it("sets aria-busy when loading", () => {
-            render(<Button loading>Loading</Button>);
+            renderWithTheme(<Button loading>Loading</Button>);
             expect(screen.getByRole("button")).toHaveAttribute(
                 "aria-busy",
                 "true",
@@ -390,7 +398,7 @@ describe("Button", () => {
         });
 
         it("announces loading state to screen readers", () => {
-            render(
+            renderWithTheme(
                 <Button loading loadingText="Loading data">
                     Submit
                 </Button>,
@@ -403,7 +411,7 @@ describe("Button", () => {
         });
 
         it("supports custom ARIA attributes", () => {
-            render(
+            renderWithTheme(
                 <Button aria-pressed="true" aria-expanded="false">
                     Toggle
                 </Button>,
@@ -417,12 +425,14 @@ describe("Button", () => {
     // // ==================== FORWARDING PROPS ====================
     describe("Forwarding Props", () => {
         it("forwards data attributes", () => {
-            render(<Button data-testid="test-button">Data Attrs</Button>);
+            renderWithTheme(
+                <Button data-testid="test-button">Data Attrs</Button>,
+            );
             expect(screen.getByTestId("test-button")).toBeInTheDocument();
         });
 
         it("forwards type attribute", () => {
-            render(<Button type="submit">Submit</Button>);
+            renderWithTheme(<Button type="submit">Submit</Button>);
             expect(screen.getByRole("button")).toHaveAttribute(
                 "type",
                 "submit",
@@ -430,7 +440,7 @@ describe("Button", () => {
         });
 
         it("forwards name attribute", () => {
-            render(<Button name="submit-button">Named</Button>);
+            renderWithTheme(<Button name="submit-button">Named</Button>);
             expect(screen.getByRole("button")).toHaveAttribute(
                 "name",
                 "submit-button",
@@ -438,7 +448,7 @@ describe("Button", () => {
         });
 
         it("forwards value attribute", () => {
-            render(<Button value="button-value">Value</Button>);
+            renderWithTheme(<Button value="button-value">Value</Button>);
             expect(screen.getByRole("button")).toHaveAttribute(
                 "value",
                 "button-value",
@@ -446,7 +456,7 @@ describe("Button", () => {
         });
 
         it("forwards id attribute", () => {
-            render(<Button id="unique-button">ID</Button>);
+            renderWithTheme(<Button id="unique-button">ID</Button>);
             expect(screen.getByRole("button")).toHaveAttribute(
                 "id",
                 "unique-button",
@@ -454,7 +464,7 @@ describe("Button", () => {
         });
 
         it("forwards title attribute", () => {
-            render(<Button title="Tooltip text">Hover me</Button>);
+            renderWithTheme(<Button title="Tooltip text">Hover me</Button>);
             expect(screen.getByRole("button")).toHaveAttribute(
                 "title",
                 "Tooltip text",
@@ -466,7 +476,7 @@ describe("Button", () => {
     describe("Form Integration", () => {
         it("submits form when type is submit", () => {
             const handleSubmit = vi.fn((e) => e.preventDefault());
-            render(
+            renderWithTheme(
                 <form onSubmit={handleSubmit}>
                     <Button type="submit">Submit</Button>
                 </form>,
@@ -476,7 +486,7 @@ describe("Button", () => {
         });
 
         it("resets form when type is reset", () => {
-            render(
+            renderWithTheme(
                 <form>
                     <input defaultValue="test" />
                     <Button type="reset">Reset</Button>
@@ -492,7 +502,7 @@ describe("Button", () => {
 
         it("does not submit form when type is button", () => {
             const handleSubmit = vi.fn();
-            render(
+            renderWithTheme(
                 <form onSubmit={handleSubmit}>
                     <Button type="button">Button</Button>
                 </form>,
@@ -503,7 +513,7 @@ describe("Button", () => {
 
         it("does not submit form when disabled", () => {
             const handleSubmit = vi.fn();
-            render(
+            renderWithTheme(
                 <form onSubmit={handleSubmit}>
                     <Button type="submit" disabled>
                         Submit
@@ -518,7 +528,7 @@ describe("Button", () => {
     // // ==================== LINK BUTTON ====================
     describe("Link Button (as anchor)", () => {
         it("renders as anchor tag with href", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="https://example.com">
                     Link
                 </Button>,
@@ -528,7 +538,7 @@ describe("Button", () => {
         });
 
         it("opens in new tab when target is _blank", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="https://example.com" target="_blank">
                     External Link
                 </Button>,
@@ -538,7 +548,7 @@ describe("Button", () => {
         });
 
         it("includes rel='noopener noreferrer' for security", () => {
-            render(
+            renderWithTheme(
                 <Button
                     as="a"
                     href="https://example.com"
@@ -555,7 +565,7 @@ describe("Button", () => {
         });
 
         it("applies button styles to anchor", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="https://example.com" variant="primary">
                     Styled Link
                 </Button>,
@@ -568,7 +578,7 @@ describe("Button", () => {
         });
 
         it("applies all size variants to anchor", () => {
-            const { unmount } = render(
+            const { unmount } = renderWithTheme(
                 <Button as="a" href="#" size="sm">
                     Small Link
                 </Button>,
@@ -578,7 +588,7 @@ describe("Button", () => {
             );
             unmount();
 
-            render(
+            renderWithTheme(
                 <Button as="a" href="#" size="lg">
                     Large Link
                 </Button>,
@@ -590,7 +600,7 @@ describe("Button", () => {
 
         it("handles onClick for anchor links", () => {
             const handleClick = vi.fn((e) => e.preventDefault());
-            render(
+            renderWithTheme(
                 <Button as="a" href="#section" onClick={handleClick}>
                     Click Link
                 </Button>,
@@ -600,7 +610,7 @@ describe("Button", () => {
         });
 
         it("applies disabled styles to anchor (visual only)", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="https://example.com" disabled>
                     Disabled Link
                 </Button>,
@@ -611,7 +621,7 @@ describe("Button", () => {
         });
 
         it("still navigates when anchor is disabled (HTML behavior)", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="https://example.com" disabled>
                     Link
                 </Button>,
@@ -624,7 +634,7 @@ describe("Button", () => {
         });
 
         it("applies loading state to anchor", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="#" loading>
                     Loading Link
                 </Button>,
@@ -635,7 +645,7 @@ describe("Button", () => {
         });
 
         it("shows loading text in anchor", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="#" loading loadingText="Please wait...">
                     Submit
                 </Button>,
@@ -644,7 +654,7 @@ describe("Button", () => {
         });
 
         it("forwards download attribute", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="/file.pdf" download="document.pdf">
                     Download
                 </Button>,
@@ -654,7 +664,7 @@ describe("Button", () => {
         });
 
         it("handles anchor with fragment identifier", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="#section-1">
                     Jump to Section
                 </Button>,
@@ -666,7 +676,7 @@ describe("Button", () => {
         });
 
         it("handles relative URLs", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="/about">
                     About
                 </Button>,
@@ -675,7 +685,7 @@ describe("Button", () => {
         });
 
         it("handles mailto links", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="mailto:test@example.com">
                     Email Us
                 </Button>,
@@ -687,7 +697,7 @@ describe("Button", () => {
         });
 
         it("handles tel links", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="tel:+1234567890">
                     Call Us
                 </Button>,
@@ -699,7 +709,7 @@ describe("Button", () => {
         });
 
         it("applies fullWidth to anchor", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="#" fullWidth>
                     Full Width Link
                 </Button>,
@@ -708,7 +718,7 @@ describe("Button", () => {
         });
 
         it("applies custom className to anchor", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="#" className="custom-link">
                     Custom
                 </Button>,
@@ -717,7 +727,7 @@ describe("Button", () => {
         });
 
         it("merges custom styles with anchor", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="#" style={{ marginTop: "10px" }}>
                     Styled
                 </Button>,
@@ -727,7 +737,7 @@ describe("Button", () => {
         });
 
         it("supports aria-label on anchor", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="#" aria-label="Go to homepage">
                     Home
                 </Button>,
@@ -747,7 +757,7 @@ describe("Button", () => {
             ] as const;
 
             variants.forEach((variant) => {
-                const { unmount } = render(
+                const { unmount } = renderWithTheme(
                     <Button as="a" href="#" variant={variant}>
                         {variant}
                     </Button>,
@@ -759,7 +769,7 @@ describe("Button", () => {
 
         it("handles keyboard navigation for anchor", () => {
             const handleClick = vi.fn((e) => e.preventDefault());
-            render(
+            renderWithTheme(
                 <Button as="a" href="#" onClick={handleClick}>
                     Keyboard Link
                 </Button>,
@@ -772,7 +782,7 @@ describe("Button", () => {
         });
 
         it("is focusable by default as anchor", () => {
-            render(
+            renderWithTheme(
                 <Button as="a" href="#">
                     Focusable Link
                 </Button>,
@@ -786,7 +796,7 @@ describe("Button", () => {
             const handleClick = vi.fn((e) => {
                 e.preventDefault();
             });
-            render(
+            renderWithTheme(
                 <Button as="a" href="https://example.com" onClick={handleClick}>
                     Prevented Link
                 </Button>,
@@ -800,7 +810,7 @@ describe("Button", () => {
     describe("Edge Cases", () => {
         it("handles rapid successive clicks", async () => {
             const handleClick = vi.fn();
-            render(<Button onClick={handleClick}>Rapid Click</Button>);
+            renderWithTheme(<Button onClick={handleClick}>Rapid Click</Button>);
             const button = screen.getByRole("button");
 
             await userEvent.click(button);
@@ -817,7 +827,7 @@ describe("Button", () => {
                 await new Promise((resolve) => setTimeout(resolve, 100));
             });
 
-            render(<Button onClick={handleClick}>Async</Button>);
+            renderWithTheme(<Button onClick={handleClick}>Async</Button>);
             await userEvent.click(screen.getByRole("button"));
 
             await waitFor(() => {
@@ -833,33 +843,33 @@ describe("Button", () => {
                 .spyOn(console, "error")
                 .mockImplementation(() => {});
 
-            render(<Button onClick={handleClick}>Error</Button>);
+            renderWithTheme(<Button onClick={handleClick}>Error</Button>);
             await userEvent.click(screen.getByRole("button"));
             consoleSpy.mockRestore();
         });
 
         it("handles null children gracefully", () => {
-            render(<Button>{null}</Button>);
+            renderWithTheme(<Button>{null}</Button>);
             expect(screen.getByRole("button")).toBeInTheDocument();
         });
 
         it("handles undefined children gracefully", () => {
-            render(<Button>{undefined}</Button>);
+            renderWithTheme(<Button>{undefined}</Button>);
             expect(screen.getByRole("button")).toBeInTheDocument();
         });
 
         it("handles empty string children", () => {
-            render(<Button>{""}</Button>);
+            renderWithTheme(<Button>{""}</Button>);
             expect(screen.getByRole("button")).toBeInTheDocument();
         });
 
         it("handles boolean children gracefully", () => {
-            render(<Button>{true}</Button>);
+            renderWithTheme(<Button>{true}</Button>);
             expect(screen.getByRole("button")).toBeInTheDocument();
         });
 
         it("handles number children", () => {
-            render(<Button>{42}</Button>);
+            renderWithTheme(<Button>{42}</Button>);
             expect(
                 screen.getByRole("button", { name: "42" }),
             ).toBeInTheDocument();
@@ -867,12 +877,12 @@ describe("Button", () => {
 
         it("handles very long text", () => {
             const longText = "A".repeat(1000);
-            render(<Button>{longText}</Button>);
+            renderWithTheme(<Button>{longText}</Button>);
             expect(screen.getByRole("button")).toHaveTextContent(longText);
         });
 
         it("handles special characters in children", () => {
-            render(<Button>{"<>&\"'"}</Button>);
+            renderWithTheme(<Button>{"<>&\"'"}</Button>);
             expect(screen.getByRole("button")).toHaveTextContent("<>&\"'");
         });
     });
@@ -880,7 +890,7 @@ describe("Button", () => {
     // // ==================== COMBINATION TESTS ====================
     describe("Prop Combinations", () => {
         it("handles disabled + loading together", () => {
-            render(
+            renderWithTheme(
                 <Button disabled loading>
                     Both
                 </Button>,
@@ -902,7 +912,7 @@ describe("Button", () => {
 
             variants.forEach((variant) => {
                 sizes.forEach((size) => {
-                    const { unmount } = render(
+                    const { unmount } = renderWithTheme(
                         <Button variant={variant} size={size}>
                             {variant}-{size}
                         </Button>,
@@ -917,7 +927,7 @@ describe("Button", () => {
             const sizes = ["sm", "md", "lg"] as const;
 
             sizes.forEach((size) => {
-                const { unmount } = render(
+                const { unmount } = renderWithTheme(
                     <Button fullWidth size={size}>
                         Full {size}
                     </Button>,
@@ -940,11 +950,11 @@ describe("Button", () => {
                 return <Button {...props}>Test</Button>;
             };
 
-            const { rerender } = render(<TestButton />);
+            const { rerender } = renderWithTheme(<TestButton />);
             expect(renderSpy).toHaveBeenCalledTimes(1);
 
             // Re-render with same props should not cause button to re-render
-            rerender(<TestButton />);
+            renderWithTheme(<TestButton />);
             // Note: This test depends on your memoization strategy
         });
     });

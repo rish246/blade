@@ -20,5 +20,6 @@ export const getActiveBreakpoint = (): Breakpoint => {
         if (width >= breakpoints.md) return "md";
         return "sm";
     })();
+
     return result;
 };
