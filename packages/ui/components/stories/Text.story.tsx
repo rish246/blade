@@ -92,7 +92,7 @@ export const TypographyVariants = () => (
         <Box
             style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
         >
-            <Text size="sm" weight="regular">
+            <Text size="sm" weight="medium">
                 Small text, regular weight
             </Text>
             <Text size="md" weight="medium">
@@ -101,7 +101,7 @@ export const TypographyVariants = () => (
             <Text size="lg" weight="bold">
                 Large text, bold weight
             </Text>
-            <Text size="xl" weight="semibold">
+            <Text size="xl" weight="bold">
                 Extra large text, semibold
             </Text>
         </Box>
