@@ -1,8 +1,8 @@
 import { ReactNode, useEffect } from "react";
-import { tokens } from "../../tokens/tokens";
 import Box from "../Box";
 import Button from "../Button";
 import Text from "../Text";
+import { useTheme } from "../../theme/theme-provider";
 
 type ModalSize = "sm" | "md" | "lg" | "xl" | "full";
 
@@ -48,6 +48,7 @@ const Modal = ({
     showCloseButton = true,
     className = "",
 }: ModalProps) => {
+    const { theme } = useTheme();
     // Handle ESC key press
     useEffect(() => {
         if (!isOpen || !closeOnEsc) return;
@@ -105,7 +106,7 @@ const Modal = ({
                 alignItems: "center",
                 justifyContent: "center",
                 zIndex: 1000,
-                padding: tokens.spacing.md,
+                padding: theme.spacing.md,
             }}
             onClick={handleOverlayClick}
         >
@@ -135,7 +136,7 @@ const Modal = ({
                     maxHeight: "90vh",
                     display: "flex",
                     flexDirection: "column",
-                    boxShadow: tokens.shadows.lg,
+                    boxShadow: theme.shadows.lg,
                     overflow: "hidden",
                 }}
                 onClick={handleBodyClick}
@@ -148,7 +149,7 @@ const Modal = ({
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            borderBottom: `1px solid ${tokens.colors.muted}`,
+                            borderBottom: `1px solid ${theme.colors.muted}`,
                         }}
                     >
                         {title && (
@@ -192,10 +193,10 @@ const Modal = ({
                     <Box
                         p="md"
                         style={{
-                            borderTop: `1px solid ${tokens.colors.muted}`,
+                            borderTop: `1px solid ${theme.colors.muted}`,
                             display: "flex",
                             justifyContent: "flex-end",
-                            gap: tokens.spacing.sm,
+                            gap: theme.spacing.sm,
                         }}
                     >
                         {footer}

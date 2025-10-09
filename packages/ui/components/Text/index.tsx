@@ -1,5 +1,6 @@
 import type { ReactNode, CSSProperties, ElementType } from "react";
-import { tokens } from "../../tokens/tokens";
+import { useTheme } from "../../theme/theme-provider";
+import { ColorToken } from "../../theme/Theme";
 
 type TextSize = "sm" | "md" | "lg" | "xl" | "2xl";
 type TextWeight = "normal" | "medium" | "bold";
@@ -11,7 +12,7 @@ export type TextProps<T extends ElementType = "span"> = {
     style?: CSSProperties;
     size?: TextSize;
     weight?: TextWeight;
-    color?: keyof typeof tokens.colors;
+    color?: ColorToken;
     align?: CSSProperties["textAlign"];
 };
 
@@ -27,6 +28,7 @@ const Text = <T extends ElementType = "span">({
     ...rest
 }: TextProps<T> &
     Omit<React.ComponentPropsWithoutRef<T>, keyof TextProps<T>>) => {
+    const { theme } = useTheme();
     const Component = as || "span";
 
     // Auto-detect if it's a heading and apply appropriate defaults
@@ -51,43 +53,43 @@ const Text = <T extends ElementType = "span">({
     const finalSize = size ?? defaultSize;
     const finalWeight = weight ?? defaultWeight;
 
-    // Map size to actual font size from tokens
+    // Map size to actual font size from theme
     const fontSizeMap = {
-        sm: tokens.typography.fontSizeSm,
-        md: tokens.typography.fontSizeMd,
-        lg: tokens.typography.fontSizeLg,
-        xl: tokens.typography.fontSizeXl,
-        "2xl": tokens.typography.fontSize2xl,
+        sm: theme.typography.fontSizeSm,
+        md: theme.typography.fontSizeMd,
+        lg: theme.typography.fontSizeLg,
+        xl: theme.typography.fontSizeXl,
+        "2xl": theme.typography.fontSize2xl,
     };
 
     const lineHeightMap = {
-        sm: tokens.typography.lineHeightSm,
-        md: tokens.typography.lineHeightMd,
-        lg: tokens.typography.lineHeightLg,
-        xl: tokens.typography.lineHeightXl,
-        "2xl": tokens.typography.lineHeight2xl,
+        sm: theme.typography.lineHeightSm,
+        md: theme.typography.lineHeightMd,
+        lg: theme.typography.lineHeightLg,
+        xl: theme.typography.lineHeightXl,
+        "2xl": theme.typography.lineHeight2xl,
     };
 
     const fontSize = fontSizeMap[finalSize];
     const lineHeight = lineHeightMap[finalSize];
 
-    // Map weight to font weight from tokens
+    // Map weight to font weight from theme
     const fontWeight =
         finalWeight === "medium"
-            ? tokens.typography.fontWeightMedium
+            ? theme.typography.fontWeightMedium
             : finalWeight === "bold"
-              ? tokens.typography.fontWeightBold
-              : tokens.typography.fontWeightNormal;
+              ? theme.typography.fontWeightBold
+              : theme.typography.fontWeightNormal;
 
     return (
         <Component
             className={className}
             style={{
-                fontFamily: tokens.typography.fontFamily,
+                fontFamily: theme.typography.fontFamily,
                 fontSize, // ✅ Now uses calculated pixel/rem value
                 lineHeight, // ✅ Uses calculated line height
                 fontWeight, // ✅ Uses calculated font weight (400, 500, 700)
-                color: tokens.colors[color],
+                color: theme.colors[color],
                 textAlign: align,
                 ...style,
             }}

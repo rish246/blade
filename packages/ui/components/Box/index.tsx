@@ -1,10 +1,6 @@
-import type { PropsWithChildren, CSSProperties } from "react";
-import {
-    ColorToken,
-    RadiusToken,
-    SpacingToken,
-    tokens,
-} from "../../tokens/tokens";
+import { type PropsWithChildren, type CSSProperties, useEffect } from "react";
+import { ColorToken, RadiusToken, SpacingToken } from "../../theme/Theme";
+import { useTheme } from "../../theme/theme-provider";
 
 export type BoxProps = PropsWithChildren<{
     className?: string;
@@ -12,8 +8,8 @@ export type BoxProps = PropsWithChildren<{
 
     m?: SpacingToken; // margin
     p?: SpacingToken; // padding
-    bg?: ColorToken; // background color
-    color?: ColorToken; // text color
+    bg?: ColorToken | string; // background color
+    color?: ColorToken | string; // text color
     rounded?: RadiusToken;
 
     w?: number | string; // width
@@ -28,18 +24,21 @@ const Box = ({
     style,
     w,
     h,
-    bg,
-    color,
+    bg = "bg",
+    color = "text",
     rounded,
     children,
     ...rest
 }: BoxProps) => {
+    const { theme } = useTheme();
     // I want to give it some default styling
-    const margin = m ? tokens.spacing[m] : "0px";
-    const padding = p ? tokens.spacing[p] : "0px";
-    const background = tokens.colors[bg || "none"];
-    const textColor = tokens.colors[color || "text"];
-    const borderRadius = tokens.radii[rounded || "md"];
+    const margin = m ? theme.spacing[m] : "0px";
+    const padding = p ? theme.spacing[p] : "0px";
+    const background = bg in theme.colors ? (theme as any).colors[bg] : bg;
+    const textColor =
+        color in theme.colors ? (theme as any).colors[color] : color;
+
+    const borderRadius = theme.radii[rounded || "md"];
     return (
         <div
             className={className ?? ""}
@@ -52,7 +51,6 @@ const Box = ({
 
                 width: w || "auto",
                 height: h || "auto",
-
                 ...style,
             }}
             {...rest}

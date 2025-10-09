@@ -1,27 +1,32 @@
 import { render, screen } from "@testing-library/react";
 import Text from "./index";
-import { tokens } from "../../tokens/tokens";
+import { ThemeProvider } from "../../theme/theme-provider";
+import { baseTheme as tokens } from "../../theme/tokens";
+
+/** Utility to render Text inside ThemeProvider */
+const renderWithTheme = (ui: React.ReactNode) =>
+    render(<ThemeProvider initialTheme="light">{ui}</ThemeProvider>);
 
 describe("Text", () => {
     it("renders children", () => {
-        render(<Text>Hello Blade</Text>);
+        renderWithTheme(<Text>Hello Blade</Text>);
         expect(screen.getByText("Hello Blade")).toBeInTheDocument();
     });
 
     it("renders as default span", () => {
-        render(<Text>Hello</Text>);
+        renderWithTheme(<Text>Hello</Text>);
         const el = screen.getByText("Hello");
         expect(el.tagName.toLowerCase()).toBe("span");
     });
 
     it("supports rendering as another element", () => {
-        render(<Text as="h1">Heading</Text>);
+        renderWithTheme(<Text as="h1">Heading</Text>);
         const el = screen.getByRole("heading", { name: "Heading" });
         expect(el.tagName.toLowerCase()).toBe("h1");
     });
 
     it("applies default typography styles", () => {
-        render(<Text>Default</Text>);
+        renderWithTheme(<Text>Default</Text>);
         const el = screen.getByText("Default");
         expect(el).toHaveStyle({
             fontFamily: tokens.typography.fontFamily,
@@ -33,7 +38,7 @@ describe("Text", () => {
     });
 
     it("applies size, weight and color tokens", () => {
-        render(
+        renderWithTheme(
             <Text size="lg" weight="bold" color="accent" align="center">
                 Custom
             </Text>,
@@ -49,7 +54,7 @@ describe("Text", () => {
     });
 
     it("merges inline styles with token styles", () => {
-        render(
+        renderWithTheme(
             <Text style={{ letterSpacing: "2px" }} weight="medium">
                 Styled
             </Text>,
@@ -62,8 +67,36 @@ describe("Text", () => {
     });
 
     it("forwards extra props (like aria-label)", () => {
-        render(<Text aria-label="labelled-text">Test</Text>);
+        renderWithTheme(<Text aria-label="labelled-text">Test</Text>);
         const el = screen.getByLabelText("labelled-text");
         expect(el).toBeInTheDocument();
+    });
+
+    it("overrides token styles with custom style", () => {
+        renderWithTheme(
+            <Text
+                size="md"
+                style={{
+                    fontSize: "18px",
+                    color: "purple",
+                }}
+            >
+                Override
+            </Text>,
+        );
+        const el = screen.getByText("Override");
+        expect(el.style.color).toBe("purple");
+        expect(el).toHaveStyle({
+            fontSize: "18px",
+        });
+    });
+
+    it("renders correctly in dark mode theme", () => {
+        render(
+            <ThemeProvider initialTheme="dark">
+                <Text color="text">Dark Mode Text</Text>
+            </ThemeProvider>,
+        );
+        expect(screen.getByText("Dark Mode Text")).toBeInTheDocument();
     });
 });

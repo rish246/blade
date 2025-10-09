@@ -4,7 +4,8 @@ import {
     ElementType,
     PropsWithChildren,
 } from "react";
-import { tokens } from "../../tokens/tokens";
+import { useTheme } from "../../theme/theme-provider";
+import { Theme } from "../../theme/Theme";
 
 type ButtonVariant = "primary" | "secondary" | "outline" | "danger" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
@@ -21,7 +22,7 @@ type ButtonProps<T extends ElementType> = PropsWithChildren<{
 }> &
     Omit<ComponentPropsWithoutRef<T>, "as">;
 
-const getBgColor = (variant: ButtonVariant): string => {
+const getBgColor = (tokens: Theme, variant: ButtonVariant): string => {
     switch (variant) {
         case "primary":
             return tokens.colors.accent;
@@ -37,6 +38,7 @@ const getBgColor = (variant: ButtonVariant): string => {
 };
 
 const getSize = (
+    tokens: Theme,
     size: ButtonSize,
 ): {
     padding: string;
@@ -78,8 +80,9 @@ const Button = <T extends ElementType = "button">({
     className,
     ...rest
 }: ButtonProps<T>) => {
+    const { theme } = useTheme();
     const Component = as || "button";
-    const { padding, fontSize } = getSize(size || "md");
+    const { padding, fontSize } = getSize(theme, size || "md");
     const finalDisabled = disabled || loading || false;
 
     const disabledStyles: CSSProperties = finalDisabled
@@ -111,9 +114,16 @@ const Button = <T extends ElementType = "button">({
     const commonProps = {
         className,
         style: {
-            backgroundColor: getBgColor(variant || "primary"),
+            backgroundColor: getBgColor(theme, variant || "primary"),
+            color: theme.colors.text,
             padding,
             fontSize,
+            ...(variant === "outline"
+                ? { borderColor: theme.colors.text }
+                : {}),
+            ...(variant === "ghost"
+                ? { borderColor: theme.colors.none, border: "none" }
+                : {}),
             ...(fullWidth ? { width: "100%" } : {}),
             ...disabledStyles,
             ...style,

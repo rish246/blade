@@ -4,8 +4,9 @@ import {
     getActiveBreakpoint,
     breakpoints,
 } from "../../utils/breakpoints";
-import { SpacingToken, tokens } from "../../tokens/tokens";
 import Box from "../Box";
+import { SpacingToken } from "../../theme/Theme";
+import { baseTheme } from "../../theme/tokens";
 
 type GridAlign = "start" | "center" | "end" | "stretch";
 type GridJustify =
@@ -18,9 +19,9 @@ type GridJustify =
 
 type GridProps = PropsWithChildren<{
     columns?: number | Partial<Record<Breakpoint, number>>;
-    gap?: SpacingToken;
-    rowGap?: SpacingToken;
-    colGap?: SpacingToken;
+    gap?: SpacingToken | string;
+    rowGap?: SpacingToken | string;
+    colGap?: SpacingToken | string;
     align?: GridAlign;
     justify?: GridJustify;
     autoRows?: string;
@@ -99,7 +100,6 @@ const Grid = ({
     ...rest
 }: GridProps) => {
     const [curBp, setCurBp] = useState(() => getSuitableBreakpoint(columns));
-
     useEffect(() => {
         const handleResize = () => {
             console.log("Handling Resize");
@@ -117,9 +117,18 @@ const Grid = ({
             style={{
                 display: "grid",
                 ...columnStyles,
-                gap: tokens.spacing[gap],
-                rowGap: tokens.spacing[rowGap],
-                columnGap: tokens.spacing[colGap],
+                gap:
+                    gap in baseTheme.spacing
+                        ? (baseTheme as any).spacing[gap]
+                        : gap,
+                rowGap:
+                    rowGap in baseTheme.spacing
+                        ? (baseTheme as any).spacing[rowGap]
+                        : gap,
+                columnGap:
+                    colGap in baseTheme.spacing
+                        ? (baseTheme as any).spacing[colGap]
+                        : colGap,
                 alignItems: align,
                 justifyContent: getJustifyContent(justify),
                 gridAutoRows: autoRows,

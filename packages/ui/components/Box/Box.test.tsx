@@ -1,120 +1,109 @@
 import { render } from "@testing-library/react";
 import Box from ".";
-import { tokens } from "../../tokens/tokens";
+import { ThemeProvider } from "../../theme/theme-provider/ThemeProvider";
+import { lightTheme as tokens } from "../../theme/tokens/light";
 
 describe("Box", () => {
+    const renderWithTheme = (ui: React.ReactNode) =>
+        render(<ThemeProvider initialTheme="light">{ui}</ThemeProvider>);
+
     it("renders children", () => {
-        const result = render(<Box>Hello world</Box>);
+        const result = renderWithTheme(<Box>Hello world</Box>);
         expect(result.getByText("Hello world")).toBeInTheDocument();
     });
 
-    it("default styling to the children", () => {
-        const result = render(<Box>Hello</Box>);
+    it("applies default styling from theme", () => {
+        const result = renderWithTheme(<Box>Hello</Box>);
         const rendered = result.getByText("Hello");
-        expect(result.getByText("Hello")).toBeInTheDocument();
 
-        expect(rendered).toHaveStyle(`background: ${tokens.colors.none}`);
-        expect(rendered).toHaveStyle("padding:0");
+        expect(rendered).toBeInTheDocument();
+        expect(rendered).toHaveStyle(`background: ${tokens.colors.bg}`);
         expect(rendered).toHaveStyle(`color: ${tokens.colors.text}`);
-        expect(rendered).toHaveStyle("margin:0");
+        expect(rendered).toHaveStyle("padding: 0px");
+        expect(rendered).toHaveStyle("margin: 0px");
     });
 
-    it("overriding default prop values", () => {
-        const result = render(
-            <Box p={"md"} m={"lg"} color={"success"} bg={"accent"}>
+    it("applies token-based styles from props", () => {
+        const result = renderWithTheme(
+            <Box p="md" m="lg" color="success" bg="accent">
                 Hello
             </Box>,
         );
         const rendered = result.getByText("Hello");
-        expect(result.getByText("Hello")).toBeInTheDocument();
 
         expect(rendered).toHaveStyle(`background: ${tokens.colors.accent}`);
-        expect(rendered).toHaveStyle("padding: 16px");
         expect(rendered).toHaveStyle(`color: ${tokens.colors.success}`);
-        expect(rendered).toHaveStyle("margin: 24px");
+        expect(rendered).toHaveStyle(`padding: ${tokens.spacing.md}`);
+        expect(rendered).toHaveStyle(`margin: ${tokens.spacing.lg}`);
     });
 
-    it("providing addition style object", () => {
-        const result = render(
+    it("allows inline style override", () => {
+        const result = renderWithTheme(
             <Box
-                p={"md"}
-                m={"lg"}
-                color={"success"}
-                bg={"accent"}
-                style={{
-                    background: "blue",
-                }}
+                p="md"
+                m="lg"
+                color="success"
+                bg="accent"
+                style={{ background: "blue" }}
             >
                 Hello
             </Box>,
         );
         const rendered = result.getByText("Hello");
-        expect(result.getByText("Hello")).toBeInTheDocument();
 
+        // Inline style should override token value
         expect(rendered).toHaveStyle("background: blue");
-        expect(rendered).toHaveStyle("padding: 16px");
+        expect(rendered).toHaveStyle(`padding: ${tokens.spacing.md}`);
         expect(rendered).toHaveStyle(`color: ${tokens.colors.success}`);
-        expect(rendered).toHaveStyle("margin: 24px");
+        expect(rendered).toHaveStyle(`margin: ${tokens.spacing.lg}`);
     });
 
-    it("providing freeform width and height", () => {
-        const result = render(
-            <Box
-                p={"md"}
-                m={"lg"}
-                color={"success"}
-                bg={"accent"}
-                h={"100px"}
-                w={"50%"}
-            >
+    it("accepts freeform width and height", () => {
+        const result = renderWithTheme(
+            <Box p="md" m="lg" color="success" bg="accent" h="100px" w="50%">
                 Hello
             </Box>,
         );
         const rendered = result.getByText("Hello");
-        expect(result.getByText("Hello")).toBeInTheDocument();
 
-        expect(rendered).toHaveStyle("padding: 16px");
+        expect(rendered).toHaveStyle(`padding: ${tokens.spacing.md}`);
         expect(rendered).toHaveStyle(`color: ${tokens.colors.success}`);
-        expect(rendered).toHaveStyle("margin: 24px");
-
+        expect(rendered).toHaveStyle(`margin: ${tokens.spacing.lg}`);
         expect(rendered).toHaveStyle("height: 100px");
         expect(rendered).toHaveStyle("width: 50%");
     });
 
-    it("providing width and height as ints", () => {
-        const result = render(
-            <Box h={100} w={0.5}>
+    it("accepts numeric width and height", () => {
+        const result = renderWithTheme(
+            <Box h={100} w={50}>
                 Hello
             </Box>,
         );
         const rendered = result.getByText("Hello");
-        expect(result.getByText("Hello")).toBeInTheDocument();
 
         expect(rendered).toHaveStyle("height: 100px");
-        expect(rendered).toHaveStyle("width: 0.5px");
+        expect(rendered).toHaveStyle("width: 50px");
     });
 
-    it("passing accessibility attrs to the box", () => {
-        const result = render(
+    it("passes accessibility attributes", () => {
+        const result = renderWithTheme(
             <Box
-                p={"md"}
-                m={"lg"}
-                color={"success"}
-                bg={"accent"}
-                h={"100px"}
-                w={"50%"}
-                aria-label={"My Label"}
+                p="md"
+                m="lg"
+                color="success"
+                bg="accent"
+                h="100px"
+                w="50%"
+                aria-label="My Label"
             >
                 Hello
             </Box>,
         );
         const rendered = result.getByText("Hello");
-        expect(result.getByText("Hello")).toBeInTheDocument();
 
-        expect(rendered).toHaveStyle("padding: 16px");
+        expect(rendered).toHaveStyle(`padding: ${tokens.spacing.md}`);
         expect(rendered).toHaveStyle(`color: ${tokens.colors.success}`);
-        expect(rendered).toHaveStyle("margin: 24px");
-
+        expect(rendered).toHaveStyle(`margin: ${tokens.spacing.lg}`);
         expect(rendered).toHaveStyle("height: 100px");
         expect(rendered).toHaveStyle("width: 50%");
 
