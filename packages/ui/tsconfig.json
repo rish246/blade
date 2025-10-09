@@ -10,5 +10,5 @@
         "skipLibCheck": true,
         "types": ["vitest/globals", "@testing-library/jest-dom"]
     },
-    "include": ["components/**/*", "theme/**/*", "global.d.ts"]
+    "include": ["components/**/*", "theme/**/*", "global.d.ts", "icons/**/*"]
 }

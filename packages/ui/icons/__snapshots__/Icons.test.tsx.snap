@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Icon Component > Snapshots > matches snapshot for default icon 1`] = `<DocumentFragment />`;
+
+exports[`Icon Component > Snapshots > matches snapshot with aria-label and custom styles 1`] = `<DocumentFragment />`;
