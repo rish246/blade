@@ -27,7 +27,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => (
                 minHeight: "100vh",
                 display: "flex",
                 flexDirection: "column",
-                gap: "2rem",
+                gap: "2.2rem",
                 alignItems: "center",
                 justifyContent: "center",
             }}
