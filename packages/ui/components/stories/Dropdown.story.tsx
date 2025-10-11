@@ -5,7 +5,11 @@ import Text from "../Text";
 import Box from "../Box";
 import Icon from "../../icons";
 import { useState } from "react";
-import { ThemeProvider as ThemeContextProvider } from "../../theme/theme-provider";
+import {
+    ThemeProvider as ThemeContextProvider,
+    useTheme,
+} from "../../theme/theme-provider";
+import { Theme } from "../../theme/Theme";
 
 export default {
     title: "UI/Overlay/Dropdown",
@@ -13,21 +17,19 @@ export default {
 };
 
 /* ------------------ WRAPPER ------------------ */
-const StoryWrapper = ({ children }: { children: React.ReactNode }) => (
-    <ThemeContextProvider>
-        <div
-            style={{
-                background: "var(--background, #fff)",
-                color: "var(--foreground, #000)",
-                minHeight: "100vh",
-                padding: "2rem",
-                boxSizing: "border-box",
-            }}
-        >
+const StoryWrapper = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <ThemeContextProvider>
+            <ToggleTheme />
             {children}
-        </div>
-    </ThemeContextProvider>
-);
+        </ThemeContextProvider>
+    );
+};
+
+const ToggleTheme = () => {
+    const { toggleTheme } = useTheme();
+    return <Button onClick={toggleTheme}>Toggle</Button>;
+};
 
 /* ------------------ DEFAULT DROPDOWN ------------------ */
 export const DefaultDropdown = () => {
