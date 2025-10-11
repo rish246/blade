@@ -45,7 +45,7 @@ describe("Icon Component", () => {
         expect(wrapper).toHaveStyle({ marginTop: "10px" });
 
         // Ensure SVG stroke color reflects style
-        const svg = wrapper.firstChild;
+        const svg = wrapper?.firstChild;
         expect(svg).toHaveAttribute("stroke", "blue");
     });
 

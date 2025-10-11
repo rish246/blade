@@ -1,2 +1,4 @@
 export * from "./components";
-export * from "./tokens/tokens";
+export * from "./theme/tokens";
+export * from "./theme/theme-provider";
+export * from "./theme/Theme";
