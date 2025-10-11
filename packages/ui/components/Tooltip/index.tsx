@@ -33,7 +33,9 @@ const Tooltip = ({
     const [isOpen, setIsOpen] = useState(false);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const tooltipId = useId();
+
     const handleOpen = () => {
+        console.log("Open");
         timeoutRef.current = setTimeout(() => {
             setIsOpen(true);
             if (onOpen) {
@@ -43,9 +45,10 @@ const Tooltip = ({
     };
 
     const handleClose = () => {
+        console.log("Close");
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
-            timeoutRef.current = null; // FIX: Clear the ref
+            timeoutRef.current = null;
         }
         setIsOpen(false);
         if (onClose) {
@@ -92,29 +95,72 @@ const Tooltip = ({
         return getHandlerFor(trigger);
     })();
 
-    const tooltipContent = isOpen ? (
+    // Always render tooltip, but control visibility
+    const tooltipContent = (
         <Box
             className={contentClassName}
             id={tooltipId}
             role="tooltip"
             aria-live={liveRegion}
             data-placement={placement}
+            style={{
+                visibility: isOpen ? "visible" : "hidden",
+                opacity: isOpen ? 1 : 0,
+                transition: "opacity 0.15s ease-in-out",
+                marginBottom: placement === "top" ? "8px" : undefined,
+                marginTop: placement === "bottom" ? "8px" : undefined,
+                marginRight: placement === "left" ? "8px" : undefined,
+                marginLeft: placement === "right" ? "8px" : undefined,
+                maxHeight: isOpen ? "1000px" : "0",
+                overflow: isOpen ? "visible" : "hidden",
+            }}
         >
             {content}
         </Box>
-    ) : null;
+    );
+
+    const getContainerStyle = () => {
+        const baseStyle = {
+            display: "inline-flex",
+            alignItems: "center",
+        };
+
+        switch (placement) {
+            case "top":
+                return { ...baseStyle, flexDirection: "column" as const };
+            case "bottom":
+                return {
+                    ...baseStyle,
+                    flexDirection: "column-reverse" as const,
+                };
+            case "left":
+                return { ...baseStyle, flexDirection: "row" as const };
+            case "right":
+                return { ...baseStyle, flexDirection: "row-reverse" as const };
+            default:
+                return baseStyle;
+        }
+    };
 
     return (
-        <Box
-            className={className}
-            {...triggerHandlers}
-            onKeyDown={handleKeydown}
-        >
-            {portal
-                ? createPortal(tooltipContent, document.querySelector(portal)!)
-                : tooltipContent}
-            <Box aria-describedby={tooltipId}>{children}</Box>
-        </Box>
+        <span className={className} style={getContainerStyle()}>
+            {(placement === "top" || placement === "left") && tooltipContent}
+
+            <Box
+                aria-describedby={isOpen ? tooltipId : undefined}
+                {...triggerHandlers}
+                onKeyDown={handleKeydown}
+                style={{
+                    width: "fit-content",
+                    height: "fit-content",
+                }}
+            >
+                {children}
+            </Box>
+
+            {(placement === "bottom" || placement === "right") &&
+                tooltipContent}
+        </span>
     );
 };
 

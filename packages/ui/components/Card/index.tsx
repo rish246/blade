@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, forwardRef } from "react";
 import Box from "../Box";
 import { useTheme } from "../../theme/theme-provider";
 import { ColorToken, SpacingToken, Theme } from "../../theme/Theme";
@@ -81,133 +81,139 @@ const getBorderRadiusToken = (
     }
 };
 
-const Card = ({
-    children,
-    variant = "default",
-    padding = "md",
-    borderRadius = "md",
-    fullWidth = false,
-    disabled = false,
-    hoverable = false,
-    loading = false,
-    header,
-    footer,
-    image,
-    media,
-    className = "",
-    style,
-    color,
-    onClick,
-    ...rest
-}: CardProps) => {
-    const { theme } = useTheme();
+const Card = forwardRef<HTMLDivElement, CardProps>(
+    (
+        {
+            children,
+            variant = "default",
+            padding = "md",
+            borderRadius = "md",
+            fullWidth = false,
+            disabled = false,
+            hoverable = false,
+            loading = false,
+            header,
+            footer,
+            image,
+            media,
+            className = "",
+            style,
+            color,
+            onClick,
+            ...rest
+        },
+        ref,
+    ) => {
+        const { theme } = useTheme();
 
-    const isClickable = !!onClick && !disabled;
+        const isClickable = !!onClick && !disabled;
 
-    const handleClick = (e: React.MouseEvent) => {
-        if (disabled || loading) {
-            e.preventDefault();
-            return;
-        }
-        if (onClick) {
-            onClick(e);
-        }
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (isClickable && (e.key === "Enter" || e.key === " ")) {
-            e.preventDefault();
-            if (onClick) {
-                onClick(e as any);
+        const handleClick = (e: React.MouseEvent) => {
+            if (disabled || loading) {
+                e.preventDefault();
+                return;
             }
+            if (onClick) {
+                onClick(e);
+            }
+        };
+
+        const handleKeyDown = (e: React.KeyboardEvent) => {
+            if (isClickable && (e.key === "Enter" || e.key === " ")) {
+                e.preventDefault();
+                if (onClick) {
+                    onClick(e as any);
+                }
+            }
+        };
+
+        const variantStyles = getVariantStyles(theme, variant);
+        const borderRadiusToken = getBorderRadiusToken(borderRadius);
+
+        const baseStyles: CSSProperties = {
+            fontFamily: theme.typography.fontFamily,
+            color: color || "text",
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+            transition: "all 0.2s ease",
+            padding: theme.spacing[padding || "md"],
+            ...variantStyles,
+            ...(isClickable ? { cursor: "pointer" } : {}),
+            ...(disabled ? { opacity: "0.5", cursor: "not-allowed" } : {}),
+            ...(hoverable || isClickable
+                ? {
+                      transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                  }
+                : {}),
+        };
+
+        const commonProps = {
+            className,
+            onClick: isClickable ? handleClick : undefined,
+            onKeyDown: isClickable ? handleKeyDown : undefined,
+            role: isClickable ? "button" : rest.role,
+            tabIndex: isClickable ? 0 : undefined,
+            "aria-disabled": disabled,
+            "aria-busy": loading,
+            ...rest,
+        };
+
+        if (loading) {
+            return (
+                <Box
+                    p={padding}
+                    rounded={borderRadiusToken}
+                    w={fullWidth ? "100%" : undefined}
+                    style={{ ...baseStyles, ...style }}
+                    {...commonProps}
+                >
+                    Loading...
+                </Box>
+            );
         }
-    };
 
-    const variantStyles = getVariantStyles(theme, variant);
-    const borderRadiusToken = getBorderRadiusToken(borderRadius);
-
-    const baseStyles: CSSProperties = {
-        fontFamily: theme.typography.fontFamily,
-        color: color || "text",
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-        transition: "all 0.2s ease",
-        padding: theme.spacing[padding || "md"],
-        ...variantStyles,
-        ...(isClickable ? { cursor: "pointer" } : {}),
-        ...(disabled ? { opacity: "0.5", cursor: "not-allowed" } : {}),
-        ...(hoverable || isClickable
-            ? {
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-              }
-            : {}),
-    };
-
-    const commonProps = {
-        className,
-        onClick: isClickable ? handleClick : undefined,
-        onKeyDown: isClickable ? handleKeyDown : undefined,
-        role: isClickable ? "button" : rest.role,
-        tabIndex: isClickable ? 0 : undefined,
-        "aria-disabled": disabled,
-        "aria-busy": loading,
-        ...rest,
-    };
-
-    if (loading) {
         return (
             <Box
-                p={padding}
+                ref={ref}
                 rounded={borderRadiusToken}
                 w={fullWidth ? "100%" : undefined}
                 style={{ ...baseStyles, ...style }}
                 {...commonProps}
             >
-                Loading...
+                {(image || media) && (
+                    <Box style={{ overflow: "hidden", padding: "0" }}>
+                        {image || media}
+                    </Box>
+                )}
+
+                {header && (
+                    <Box
+                        p={padding}
+                        style={{
+                            borderBottom: `1px solid ${theme.colors.muted}`,
+                        }}
+                    >
+                        {header}
+                    </Box>
+                )}
+
+                {children}
+
+                {footer && (
+                    <Box
+                        p={padding}
+                        style={{
+                            borderTop: `1px solid ${theme.colors.muted}`,
+                            marginTop: "auto",
+                        }}
+                    >
+                        {footer}
+                    </Box>
+                )}
             </Box>
         );
-    }
-
-    return (
-        <Box
-            rounded={borderRadiusToken}
-            w={fullWidth ? "100%" : undefined}
-            style={{ ...baseStyles, ...style }}
-            {...commonProps}
-        >
-            {(image || media) && (
-                <Box style={{ overflow: "hidden", padding: "0" }}>
-                    {image || media}
-                </Box>
-            )}
-
-            {header && (
-                <Box
-                    p={padding}
-                    style={{
-                        borderBottom: `1px solid ${theme.colors.muted}`,
-                    }}
-                >
-                    {header}
-                </Box>
-            )}
-
-            {children}
-
-            {footer && (
-                <Box
-                    p={padding}
-                    style={{
-                        borderTop: `1px solid ${theme.colors.muted}`,
-                        marginTop: "auto",
-                    }}
-                >
-                    {footer}
-                </Box>
-            )}
-        </Box>
-    );
-};
+    },
+);
 
 export default Card;

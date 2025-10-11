@@ -1,4 +1,4 @@
-import type { ReactNode, CSSProperties, ElementType } from "react";
+import { ReactNode, CSSProperties, ElementType, forwardRef } from "react";
 import { useTheme } from "../../theme/theme-provider";
 import { ColorToken } from "../../theme/Theme";
 
