@@ -1,6 +1,12 @@
-import { PropsWithChildren, useId, useRef, useState } from "react";
+import {
+    PropsWithChildren,
+    useId,
+    useRef,
+    useState,
+    useEffect,
+    CSSProperties,
+} from "react";
 import Box from "../Box";
-import { createPortal } from "react-dom";
 
 type LiveRegion = "polite" | "assertive" | "off";
 type Trigger = "hover" | "focus" | "click";
@@ -95,6 +101,26 @@ const Tooltip = ({
         return getHandlerFor(trigger);
     })();
 
+    const getPositionStyles = (): CSSProperties => {
+        const gap = 8;
+
+        switch (placement) {
+            case "top":
+                return {
+                    bottom: `calc(100% + ${gap}px)`,
+                    left: "50%",
+                };
+            case "bottom":
+            case "left":
+            case "right":
+            default:
+                return {
+                    bottom: `calc(100% + ${gap}px)`,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                };
+        }
+    };
     // Always render tooltip, but control visibility
     const tooltipContent = (
         <Box
@@ -113,6 +139,8 @@ const Tooltip = ({
                 marginLeft: placement === "right" ? "8px" : undefined,
                 maxHeight: isOpen ? "1000px" : "0",
                 overflow: isOpen ? "visible" : "hidden",
+                position: "absolute",
+                ...getPositionStyles(),
             }}
         >
             {content}
@@ -120,9 +148,11 @@ const Tooltip = ({
     );
 
     const getContainerStyle = () => {
-        const baseStyle = {
+        const baseStyle: CSSProperties = {
             display: "inline-flex",
             alignItems: "center",
+            position: "relative",
+            width: "auto",
         };
 
         switch (placement) {
