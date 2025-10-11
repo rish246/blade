@@ -1,9 +1,9 @@
 import React from "react";
-import Stack from "../Stack";
-import Text from "../Text";
-import Box from "../Box";
-import Button from "../Button";
-import { ThemeProvider, useTheme } from "../../theme/theme-provider";
+import Stack from "../components/Stack";
+import Text from "../components/Text";
+import Box from "../components/Box";
+import Button from "../components/Button";
+import { ThemeProvider, useTheme } from "../theme/theme-provider";
 
 export default {
     title: "UI/Primitive/Stack",

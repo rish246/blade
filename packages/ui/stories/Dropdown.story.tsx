@@ -1,15 +1,15 @@
-import Dropdown from "../Dropdown";
-import Button from "../Button";
-import Stack from "../Stack";
-import Text from "../Text";
-import Box from "../Box";
-import Icon from "../../icons";
+import Dropdown from "../components/Dropdown";
+import Button from "../components/Button";
+import Stack from "../components/Stack";
+import Text from "../components/Text";
+import Box from "../components/Box";
+import Icon from "../icons";
 import { useState } from "react";
 import {
     ThemeProvider as ThemeContextProvider,
     useTheme,
-} from "../../theme/theme-provider";
-import { Theme } from "../../theme/Theme";
+} from "../theme/theme-provider";
+import { Theme } from "../theme/Theme";
 
 export default {
     title: "UI/Overlay/Dropdown",

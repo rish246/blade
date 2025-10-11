@@ -1,7 +1,7 @@
 import React from "react";
-import Input from "../Input";
-import { ThemeProvider } from "../../theme/theme-provider";
-import Box from "../Box";
+import Input from "../components/Input";
+import { ThemeProvider } from "../theme/theme-provider";
+import Box from "../components/Box";
 
 export default {
     title: "UI/Form/Input",

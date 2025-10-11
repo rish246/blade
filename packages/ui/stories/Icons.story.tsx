@@ -1,6 +1,6 @@
 import React from "react";
-import Icon from "../../icons";
-import { baseTheme } from "../../theme/tokens";
+import Icon from "../icons";
+import { baseTheme } from "../theme/tokens";
 
 // Ladle: stories are just named exports returning JSX
 // You can also use `args` to show controls in the UI.
