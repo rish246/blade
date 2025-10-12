@@ -1,6 +1,6 @@
 import { fireEvent, renderHook } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { use, useRef } from "react";
+import { useRef } from "react";
 import { vi } from "vitest";
 import { useClickOutside } from ".";
 
