@@ -1,7 +1,7 @@
 import type { Story } from "@ladle/react";
 import { useState } from "react";
-import Tooltip, { TooltipProps } from "../Tooltip";
-import { ThemeProvider as ThemeContextProvider } from "../../theme/theme-provider";
+import Tooltip, { TooltipProps } from "../components/Tooltip";
+import { ThemeProvider as ThemeContextProvider } from "../theme/theme-provider";
 
 export default {
     title: "UI/Utilities/Tooltip",

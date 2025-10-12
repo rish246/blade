@@ -1,6 +1,6 @@
 import type { Story } from "@ladle/react";
-import Popover, { PopOverProps } from "../Popover";
-import { ThemeProvider as ThemeContextProvider } from "../../theme/theme-provider";
+import Popover, { PopOverProps } from "../components/Popover";
+import { ThemeProvider as ThemeContextProvider } from "../theme/theme-provider";
 
 export default {
     title: "UI/Utilities/Popover",

@@ -1,4 +1,4 @@
-import Container from "../Container";
+import Container from "../components/Container";
 
 export default {
     title: "UI/Layout/Container",

@@ -1,8 +1,10 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import Box from "../Box";
 import Button from "../Button";
 import Text from "../Text";
 import { useTheme } from "../../theme/theme-provider";
+import { useKeypress, useFocusTrap } from "../../hooks";
+import { clsx } from "../../helpers/clsx";
 
 type ModalSize = "sm" | "md" | "lg" | "xl" | "full";
 
@@ -49,19 +51,11 @@ const Modal = ({
     className = "",
 }: ModalProps) => {
     const { theme } = useTheme();
-    // Handle ESC key press
-    useEffect(() => {
-        if (!isOpen || !closeOnEsc) return;
+    const modalRef = useRef<HTMLDivElement>(null);
 
-        const handleEscKey = (e: KeyboardEvent) => {
-            if (e.key === "Escape") {
-                onClose();
-            }
-        };
-
-        document.addEventListener("keydown", handleEscKey);
-        return () => document.removeEventListener("keydown", handleEscKey);
-    }, [isOpen, closeOnEsc, onClose]);
+    // ✅ Use hooks
+    useKeypress("Escape", onClose, { enabled: isOpen && closeOnEsc });
+    useFocusTrap(modalRef, { enabled: isOpen, autoFocus: true });
 
     // Prevent body scroll when modal is open
     useEffect(() => {
@@ -96,6 +90,7 @@ const Modal = ({
             role="dialog"
             aria-modal="true"
             aria-labelledby={title ? "modal-title" : undefined}
+            className={clsx("modal-wrapper")}
             style={{
                 position: "fixed",
                 top: 0,
@@ -112,6 +107,7 @@ const Modal = ({
         >
             {/* Overlay */}
             <Box
+                className={clsx("modal-overlay")}
                 style={{
                     position: "absolute",
                     top: 0,
@@ -126,9 +122,10 @@ const Modal = ({
 
             {/* Modal Content */}
             <Box
-                className={className}
-                bg="bg"
+                ref={modalRef}
+                bg="surface"
                 rounded="lg"
+                className={clsx("modal-content", `modal-${size}`, className)}
                 style={{
                     position: "relative",
                     width: "100%",
@@ -144,7 +141,9 @@ const Modal = ({
                 {/* Header */}
                 {(title || showCloseButton) && (
                     <Box
+                        bg="surface"
                         p="md"
+                        className={clsx("modal-header")}
                         style={{
                             display: "flex",
                             alignItems: "center",
@@ -179,7 +178,9 @@ const Modal = ({
 
                 {/* Body */}
                 <Box
+                    bg="surface"
                     p="md"
+                    className={clsx("modal-body")}
                     style={{
                         flex: 1,
                         overflowY: "auto",
@@ -191,7 +192,9 @@ const Modal = ({
                 {/* Footer */}
                 {footer && (
                     <Box
+                        bg="surface"
                         p="md"
+                        className={clsx("modal-footer")}
                         style={{
                             borderTop: `1px solid ${theme.colors.muted}`,
                             display: "flex",

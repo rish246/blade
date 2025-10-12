@@ -1,7 +1,7 @@
 import React from "react";
-import Button from "../Button";
-import { ThemeProvider, useTheme } from "../../theme/theme-provider";
-import Box from "../Box";
+import Button from "../components/Button";
+import { ThemeProvider, useTheme } from "../theme/theme-provider";
+import Box from "../components/Box";
 
 // -----------------------------------------------------------------------------
 // 🔆 Theme Wrapper — Provides theme context + toggle switch for stories

@@ -1,9 +1,9 @@
 import React from "react";
-import Grid from "../Grid";
-import GridItem from "../GridItem";
-import { ThemeProvider, useTheme } from "../../theme/theme-provider";
-import Box from "../Box";
-import Button from "../Button";
+import Grid from "../components/Grid";
+import GridItem from "../components/GridItem";
+import { ThemeProvider, useTheme } from "../theme/theme-provider";
+import Box from "../components/Box";
+import Button from "../components/Button";
 
 export default {
     title: "UI/Layout/Grid",

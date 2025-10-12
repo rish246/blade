@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Card from "../Card";
-import Box from "../Box";
-import Button from "../Button";
-import { ThemeProvider, useTheme } from "../../theme/theme-provider";
+import Card from "../components/Card";
+import Box from "../components/Box";
+import Button from "../components/Button";
+import { ThemeProvider, useTheme } from "../theme/theme-provider";
 
 export default {
     title: "UI/Core/Card",

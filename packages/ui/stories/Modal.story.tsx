@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Modal from "../Modal";
-import Button from "../Button";
-import { ThemeProvider, useTheme } from "../../theme/theme-provider";
-import Box from "../Box";
-import Text from "../Text";
+import Modal from "../components/Modal";
+import Button from "../components/Button";
+import { ThemeProvider, useTheme } from "../theme/theme-provider";
+import Box from "../components/Box";
+import Text from "../components/Text";
 
 export default {
     title: "UI/Overlay/Modal",

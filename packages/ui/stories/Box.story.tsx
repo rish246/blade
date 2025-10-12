@@ -1,6 +1,6 @@
 import React from "react";
-import Box from "../Box";
-import { ThemeProvider, useTheme } from "../../theme/theme-provider";
+import Box from "../components/Box";
+import { ThemeProvider, useTheme } from "../theme/theme-provider";
 
 // -----------------------------------------------------------------------------
 // A small helper component that wraps stories with ThemeProvider and

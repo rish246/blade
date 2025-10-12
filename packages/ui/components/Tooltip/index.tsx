@@ -129,6 +129,7 @@ const Tooltip = ({
             role="tooltip"
             aria-live={liveRegion}
             data-placement={placement}
+            bg="surface"
             style={{
                 visibility: isOpen ? "visible" : "hidden",
                 opacity: isOpen ? 1 : 0,
