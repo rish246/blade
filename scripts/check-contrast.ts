@@ -41,7 +41,6 @@ const pairs: [string, string, string, number][] = [
 
 let failed = false;
 
-console.log("🎨 Checking contrast for Blade tokens...");
 pairs.forEach(([name, fg, bg, min]) => {
     const ratio = contrastRatio(fg, bg);
     const status = ratio >= min ? "✅ PASS" : "❌ FAIL";

@@ -10,10 +10,6 @@
     "author": "",
     "license": "ISC",
     "packageManager": "pnpm@10.10.0",
-    "dependencies": {
-        "react": "^19.2.0",
-        "react-dom": "^19.2.0"
-    },
     "devDependencies": {
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^27.0.0"
