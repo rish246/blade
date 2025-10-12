@@ -1,7 +1,14 @@
 import { useSyncExternalStore } from "react";
-import { StoreGetter, StoreInitializer, StoreSetter, UseStore } from "./types";
+import {
+    MiddleWare,
+    StoreGetter,
+    StoreInitializer,
+    StoreSetter,
+    UseStore,
+} from "./types";
 export const createStore = <T extends object>(
     initializer: StoreInitializer<T>,
+    middlewares: MiddleWare<T>[] = [],
 ): UseStore<T> => {
     let state: T;
     const listeners = new Set<() => void>();
@@ -18,7 +25,12 @@ export const createStore = <T extends object>(
 
     const get: StoreGetter<T> = () => state;
 
-    state = initializer(set, get);
+    const enhancedSet = middlewares.reduceRight(
+        (prev, middleware) => middleware(prev, get),
+        set,
+    );
+
+    state = initializer(enhancedSet, get);
 
     const subscribe = (listener: () => void) => {
         listeners.add(listener);

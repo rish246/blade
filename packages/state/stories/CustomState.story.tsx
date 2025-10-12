@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createStore } from "../src/createStore";
+import { MiddleWare, StoreGetter, StoreSetter } from "../src/types";
 
 export default {
     title: "State/Testing/Counter",
@@ -10,6 +11,7 @@ type CountState = {
     increment: () => void;
     decrement: () => void;
 };
+
 const useCount = createStore<CountState>((set, get) => {
     return {
         count: 0,
@@ -18,8 +20,38 @@ const useCount = createStore<CountState>((set, get) => {
     };
 });
 
+const logger: MiddleWare<CountState> =
+    (set: StoreSetter<CountState>, get: StoreGetter<CountState>) =>
+    (update) => {
+        console.log("Prev", get());
+        set(update);
+        console.log("Next", get());
+    };
+
+const useCountWithLogger = createStore<CountState>(
+    (set, get) => {
+        return {
+            count: 0,
+            increment: () => set({ count: get().count + 1 }),
+            decrement: () => set({ count: get().count - 1 }),
+        };
+    },
+    [logger],
+);
+
 export const Default = () => {
     const { count, increment, decrement } = useCount<CountState>();
+    return (
+        <div>
+            <p>{count}</p>
+            <button onClick={increment}>Increment</button>
+            <button onClick={decrement}>Decrement</button>
+        </div>
+    );
+};
+
+export const CounterWithAMiddleware = () => {
+    const { count, increment, decrement } = useCountWithLogger<CountState>();
     return (
         <div>
             <p>{count}</p>
