@@ -35,7 +35,7 @@ const getVariantStyles = (
     switch (variant) {
         case "elevated":
             return {
-                backgroundColor: tokens.colors.bg,
+                backgroundColor: tokens.colors.surface,
                 boxShadow: tokens.shadows.md,
                 border: "none",
             };

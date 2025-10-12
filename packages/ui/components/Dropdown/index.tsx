@@ -291,7 +291,7 @@ const Dropdown = ({
                         }}
                     >
                         <Stack direction="row" align="center" gap="xs">
-                            {item.icon && <Box>{item.icon}</Box>}
+                            {item.icon && item.icon}
                             <Text>{item.label}</Text>
                         </Stack>
                     </Button>
