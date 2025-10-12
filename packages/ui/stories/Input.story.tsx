@@ -1,7 +1,8 @@
 import React from "react";
 import Input from "../components/Input";
-import { ThemeProvider } from "../theme/theme-provider";
+import { ThemeProvider, useTheme } from "../theme/theme-provider";
 import Box from "../components/Box";
+import { Button } from "../components";
 
 export default {
     title: "UI/Form/Input",
@@ -132,11 +133,9 @@ export const FullWidth = () => (
 );
 
 export const DarkTheme = () => (
-    <ThemeProvider initialTheme="dark">
-        <Box
-            p="md"
-            style={{ background: "#111827", color: "#fff", minHeight: "100vh" }}
-        >
+    <Wrapper>
+        <ThemeToggle />
+        <Box p="md">
             <Input label="Dark Mode Input" placeholder="Type something..." />
             <Input
                 label="Error"
@@ -149,5 +148,10 @@ export const DarkTheme = () => (
                 placeholder="With success color"
             />
         </Box>
-    </ThemeProvider>
+    </Wrapper>
 );
+
+const ThemeToggle = () => {
+    const { toggleTheme } = useTheme();
+    return <Button onClick={toggleTheme}>Toggle</Button>;
+};
