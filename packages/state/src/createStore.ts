@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { StoreGetter, StoreInitializer, StoreSetter, UseStore } from "./types";
-export const createStore = <T extends Object>(
+export const createStore = <T extends object>(
     initializer: StoreInitializer<T>,
 ): UseStore<T> => {
     let state: T;

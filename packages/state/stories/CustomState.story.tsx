@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createStore } from "../src/createStore";
 
 export default {
@@ -24,6 +25,67 @@ export const Default = () => {
             <p>{count}</p>
             <button onClick={increment}>Increment</button>
             <button onClick={decrement}>Decrement</button>
+        </div>
+    );
+};
+
+type Todo = {
+    name: string;
+    isCompleted: false;
+};
+type TodoListState = {
+    todos: Todo[];
+    addTodo: (newTodo: Todo) => void;
+    removeTodo: (todo: Todo) => void;
+};
+
+const useTodo = createStore<TodoListState>((set, get) => {
+    return {
+        todos: [],
+        addTodo: (todo: Todo) =>
+            set((prev) => ({
+                ...prev,
+                todos: [...prev.todos, todo],
+            })),
+        removeTodo: (todo: Todo) =>
+            set((prev) => ({
+                ...prev,
+                todos: prev.todos.filter((t) => t !== todo),
+            })),
+    };
+});
+export const TodoList = () => {
+    const { todos, addTodo, removeTodo } = useTodo<TodoListState>();
+    const [curTodo, setCurTodo] = useState("");
+    return (
+        <div>
+            <input
+                value={curTodo}
+                onChange={(e) => setCurTodo(e.target.value)}
+            />
+            <button
+                onClick={() => {
+                    addTodo({
+                        name: curTodo,
+                        isCompleted: false,
+                    });
+                }}
+            >
+                +
+            </button>
+
+            <div>
+                {todos.map((todo) => (
+                    <div
+                        style={{
+                            display: "flex",
+                        }}
+                    >
+                        <p>{todo.name}</p>
+                        <button onClick={() => removeTodo(todo)}>X</button>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
