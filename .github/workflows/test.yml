@@ -63,7 +63,7 @@ jobs:
               run: pnpm install --frozen-lockfile
 
             - name: 🧩 Build dependencies (optional)
-              run: pnpm build --filter ./packages/ui
+              run: pnpm build --filter ./packages/state
               continue-on-error: true
 
             - name: 🧪 Run tests
