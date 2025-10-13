@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, PropsWithChildren } from "react";
 import { getActiveBreakpoint, type Breakpoint } from "../../utils/breakpoints";
-
+import Box from "../Box";
 export type ContainerProps = React.HTMLAttributes<HTMLDivElement> &
     PropsWithChildren<{
         maxWidth?:
@@ -80,9 +80,9 @@ export const Container: React.FC<ContainerProps> = ({
         };
     }, [resolvedMaxWidth, padding, marginY, center, style]);
     return (
-        <div style={containerStyle} {...props}>
+        <Box style={containerStyle} {...props}>
             {children}
-        </div>
+        </Box>
     );
 };
 

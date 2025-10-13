@@ -146,6 +146,10 @@ importers:
         version: 7.1.8(@types/node@24.6.2)(jiti@2.6.1)(yaml@2.8.1)
 
   packages/state:
+    dependencies:
+      '@blade/ui':
+        specifier: workspace:*
+        version: link:../ui
     devDependencies:
       '@testing-library/jest-dom':
         specifier: ^6.9.1

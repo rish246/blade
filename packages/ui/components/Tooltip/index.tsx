@@ -41,7 +41,6 @@ const Tooltip = ({
     const tooltipId = useId();
 
     const handleOpen = () => {
-        console.log("Open");
         timeoutRef.current = setTimeout(() => {
             setIsOpen(true);
             if (onOpen) {
@@ -51,7 +50,6 @@ const Tooltip = ({
     };
 
     const handleClose = () => {
-        console.log("Close");
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
             timeoutRef.current = null;

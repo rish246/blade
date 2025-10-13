@@ -241,7 +241,6 @@ const Input = ({
                     ...readonlyStyles,
                     ...(leftIcon ? { paddingLeft: theme.spacing.xl } : {}),
                     ...(rightIcon ? { paddingRight: theme.spacing.xl } : {}),
-                    width: "100%",
                     backgroundColor: theme.colors.bg,
                     color: theme.colors.text,
                     ...style,

@@ -1,5 +1,6 @@
 import type { CSSProperties, PropsWithChildren } from "react";
 import { baseTheme } from "../../theme/tokens";
+import Box from "../Box";
 type StackProps = PropsWithChildren<{
     direction?: CSSProperties["flexDirection"];
     align?: CSSProperties["alignItems"];
@@ -27,7 +28,8 @@ const Stack = ({
     const flexWrap = wrap || "nowrap";
     const flexGap = gap || baseTheme.spacing.sm;
     return (
-        <div
+        <Box
+            w="auto"
             style={{
                 display: "flex",
                 flexDirection,
@@ -35,12 +37,13 @@ const Stack = ({
                 justifyContent,
                 flexWrap,
                 gap: flexGap,
+                flexGrow: "inherit",
                 ...style,
             }}
             className={className}
         >
             {children}
-        </div>
+        </Box>
     );
 };
 
