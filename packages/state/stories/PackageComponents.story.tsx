@@ -40,42 +40,26 @@ const useTodo = createStore<TodoListState>((set, get) => {
             })),
     };
 });
+
+const stackStyle = { width: "100%" };
+
 export const TodoList = () => {
     const { todos, addTodo, removeTodo } = useTodo<TodoListState>();
-    const [curTodo, setCurTodo] = useState("");
+
     return (
         <ThemeProvider initialTheme="light">
             <Container title="Todo List" maxWidth={"md"}>
                 <ThemeToggle />
 
                 <Stack direction="column">
-                    <Stack>
-                        <Input
-                            size="md"
-                            value={curTodo}
-                            onChange={(e) => setCurTodo(e.target.value)}
-                        />
-                        <Button
-                            variant="outline"
-                            onClick={() => {
-                                addTodo({
-                                    name: curTodo,
-                                    isCompleted: false,
-                                });
-                            }}
-                        >
-                            +
-                        </Button>
-                    </Stack>
+                    <InputArea onAdd={addTodo} />
 
                     <Stack
                         direction="column"
-                        style={{
-                            width: "100%",
-                        }}
+                        style={stackStyle} // ✅ Stable reference
                     >
                         {todos.map((todo) => (
-                            <Card fullWidth>
+                            <Card key={todo.name} fullWidth>
                                 <Stack justify="space-around">
                                     <Text as="p">{todo.name}</Text>
                                     <Button onClick={() => removeTodo(todo)}>
@@ -88,6 +72,31 @@ export const TodoList = () => {
                 </Stack>
             </Container>
         </ThemeProvider>
+    );
+};
+
+const InputArea = ({ onAdd }: { onAdd: (todo: Todo) => void }) => {
+    const [curTodo, setCurTodo] = useState("");
+
+    return (
+        <Stack>
+            <Input
+                size="md"
+                value={curTodo}
+                onChange={(e) => setCurTodo(e.target.value)}
+            />
+            <Button
+                variant="outline"
+                onClick={() => {
+                    onAdd({
+                        name: curTodo,
+                        isCompleted: false,
+                    });
+                }}
+            >
+                +
+            </Button>
+        </Stack>
     );
 };
 

@@ -1,4 +1,9 @@
-import { type PropsWithChildren, type CSSProperties, forwardRef } from "react";
+import {
+    type PropsWithChildren,
+    type CSSProperties,
+    forwardRef,
+    memo,
+} from "react";
 import { ColorToken, RadiusToken, SpacingToken } from "../../theme/Theme";
 import { useTheme } from "../../theme/theme-provider";
 
@@ -66,6 +71,4 @@ const Box = forwardRef<HTMLDivElement, BoxProps>(
     },
 );
 
-Box.displayName = "Box";
-
-export default Box;
+export default memo(Box);
