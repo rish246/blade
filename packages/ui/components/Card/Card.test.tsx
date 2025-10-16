@@ -67,7 +67,7 @@ describe("Card", () => {
 
         it("applies outlined variant styles", () => {
             const { container } = renderWithTheme(
-                <Card variant="outlined">Outlined</Card>,
+                <Card variant="outlined">Outlined Card</Card>,
             );
             const card = container.firstChild as HTMLElement;
             console.log(card.style.border);
