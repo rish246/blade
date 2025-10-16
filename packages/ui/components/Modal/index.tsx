@@ -4,7 +4,7 @@ import Button from "../Button";
 import Text from "../Text";
 import { useTheme } from "../../theme/theme-provider";
 import { useKeypress, useFocusTrap } from "../../hooks";
-import { clsx } from "../../hooks/clsx";
+import { clsx } from "../../helpers/clsx";
 
 type ModalSize = "sm" | "md" | "lg" | "xl" | "full";
 
