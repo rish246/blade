@@ -65,7 +65,7 @@ describe("Card", () => {
             expect(card.style.boxShadow).toBe(tokens.shadows.md);
         });
 
-        it.only("applies outlined variant styles", () => {
+        it("applies outlined variant styles", () => {
             const { container } = renderWithTheme(
                 <Card variant="outlined">Outlined</Card>,
             );
