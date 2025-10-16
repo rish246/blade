@@ -14,6 +14,23 @@ export type MiddleWare<T> = (
     get: StoreGetter<T>,
 ) => StoreSetter<T>;
 
-export type UseStore<T> = <U = T>(
-    selector?: (state: T) => U,
-) => U extends T ? T : U;
+export type UseStore<T> = {
+    (): T;
+    <U>(selector?: (state: T) => U): U;
+    getState: () => T;
+    setState: (partial: Partial<T>) => void;
+};
+
+export type PersistenceAdapter = {
+    getItem: (key: string) => string | null | Promise<string | null>;
+    setItem: (key: string, value: string) => void | Promise<void>;
+    removeItem: (key: string) => void | Promise<void>;
+};
+
+export type PersistOptions<T> = {
+    name: string;
+    adapter?: PersistenceAdapter;
+    partialize?: (state: T) => Partial<T>;
+    version?: number;
+    migrate?: (persistedState: T, version: number) => T;
+};
