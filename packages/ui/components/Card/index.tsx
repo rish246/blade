@@ -101,7 +101,6 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
         ref,
     ) => {
         const { theme } = useTheme();
-        console.log("render");
 
         const isClickable = !!onClick && !disabled;
 

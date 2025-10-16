@@ -1,18 +1,14 @@
 name: 🧪 UI Package Tests
 
 on:
-    push: # ✅ Runs on ALL branches for every push
-    pull_request: # ✅ Also runs on every PR
+    push:
+    pull_request:
 
 jobs:
     test-ui:
         name: Run UI Package Tests
         runs-on: ubuntu-latest
 
-        defaults:
-            run:
-                working-directory: packages/ui
-
         steps:
             - name: 🛠️ Checkout repository
               uses: actions/checkout@v4
@@ -21,30 +17,23 @@ jobs:
               uses: pnpm/action-setup@v4
               with:
                   version: 10.10.0
-                  run_install: true
+
             - name: ⚙️ Setup Node.js
               uses: actions/setup-node@v4
               with:
                   node-version: 20
                   cache: "pnpm"
+
             - name: 📁 Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: 🧩 Build dependencies (optional)
-              run: pnpm build --filter ./packages/ui
-              continue-on-error: true
-
-            - name: 🧪 Run tests
-              run: pnpm test
+            - name: 🧪 Run UI tests
+              run: pnpm --filter @blade/ui test
 
     test-state:
         name: Run State Package Tests
         runs-on: ubuntu-latest
 
-        defaults:
-            run:
-                working-directory: packages/state
-
         steps:
             - name: 🛠️ Checkout repository
               uses: actions/checkout@v4
@@ -53,18 +42,15 @@ jobs:
               uses: pnpm/action-setup@v4
               with:
                   version: 10.10.0
-                  run_install: true
+
             - name: ⚙️ Setup Node.js
               uses: actions/setup-node@v4
               with:
                   node-version: 20
                   cache: "pnpm"
+
             - name: 📁 Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: 🧩 Build dependencies (optional)
-              run: pnpm build --filter ./packages/state
-              continue-on-error: true
-
-            - name: 🧪 Run tests
-              run: pnpm test
+            - name: 🧪 Run State tests
+              run: pnpm --filter @blade/state test
