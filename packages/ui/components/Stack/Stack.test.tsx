@@ -1,10 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import Stack from "./index";
 import { baseTheme as tokens } from "../../theme/tokens";
+import { ThemeProvider } from "../../theme/theme-provider";
+
+const renderWithTheme = (ui: React.ReactNode) =>
+    render(<ThemeProvider initialTheme="light">{ui}</ThemeProvider>);
 
 describe("Stack", () => {
     it("renders children", () => {
-        render(
+        renderWithTheme(
             <Stack>
                 <span>One</span>
                 <span>Two</span>
@@ -15,7 +19,7 @@ describe("Stack", () => {
     });
 
     it("applies default flex properties", () => {
-        const { container } = render(<Stack>Default</Stack>);
+        const { container } = renderWithTheme(<Stack>Default</Stack>);
         expect(container.firstChild).toHaveStyle({
             display: "flex",
             flexDirection: "row",
@@ -27,7 +31,7 @@ describe("Stack", () => {
     });
 
     it("respects custom direction, align, justify, wrap", () => {
-        const { container } = render(
+        const { container } = renderWithTheme(
             <Stack
                 direction="column"
                 align="flex-start"
@@ -46,7 +50,7 @@ describe("Stack", () => {
     });
 
     it("applies token gap", () => {
-        const { container } = render(
+        const { container } = renderWithTheme(
             <Stack gap={tokens.spacing.lg}>Gap test</Stack>,
         );
         expect(container.firstChild).toHaveStyle({
@@ -55,7 +59,7 @@ describe("Stack", () => {
     });
 
     it("merges inline styles with defaults", () => {
-        const { getByText } = render(
+        const { getByText } = renderWithTheme(
             <Stack style={{ padding: "10px", margin: "5px" }}>Styled</Stack>,
         );
 
@@ -67,7 +71,7 @@ describe("Stack", () => {
     });
 
     it("applies className", () => {
-        const { container } = render(
+        const { container } = renderWithTheme(
             <Stack className="custom-class">Class test</Stack>,
         );
         expect(container.firstChild).toHaveClass("custom-class");
