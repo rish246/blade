@@ -102,7 +102,6 @@ const Grid = ({
     const [curBp, setCurBp] = useState(() => getSuitableBreakpoint(columns));
     useEffect(() => {
         const handleResize = () => {
-            console.log("Handling Resize");
             setCurBp(() => getSuitableBreakpoint(columns));
         };
         window.addEventListener("resize", handleResize);

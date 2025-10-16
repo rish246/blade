@@ -32,6 +32,7 @@
         "@ladle/react": "^5.1.0",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.0",
+        "@testing-library/react-hooks": "^8.0.1",
         "@testing-library/user-event": "^14.6.1",
         "@types/jest-axe": "^3.5.9",
         "@types/node": "^24.6.2",
@@ -47,10 +48,16 @@
         "husky": "^9.1.7",
         "jest-axe": "^10.0.0",
         "jiti": "^2.6.1",
+        "jsdom": "^27.0.0",
         "lint-staged": "^16.2.3",
         "prettier": "3.6.2",
+        "react-test-renderer": "^19.2.0",
         "ts-node": "^10.9.2",
         "typescript": "^5.9.3",
         "vitest": "^3.2.4"
+    },
+    "dependencies": {
+        "react": "19.0.0",
+        "react-dom": "19.0.0"
     }
 }

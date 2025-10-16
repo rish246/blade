@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, forwardRef } from "react";
+import { CSSProperties, ReactNode, forwardRef, memo } from "react";
 import Box from "../Box";
 import { useTheme } from "../../theme/theme-provider";
 import { ColorToken, SpacingToken, Theme } from "../../theme/Theme";
@@ -44,8 +44,6 @@ const getVariantStyles = (
                 backgroundColor: tokens.colors.bg,
                 border: `1px solid ${tokens.colors.muted}`,
                 boxShadow: "none",
-                borderWidth: "1px",
-                borderTopWidth: "1px",
             };
         case "filled":
             return {
@@ -59,8 +57,6 @@ const getVariantStyles = (
                 backgroundColor: tokens.colors.bg,
                 border: `1px solid ${tokens.colors.muted}`,
                 boxShadow: "none",
-                borderWidth: "1px",
-                borderTopWidth: "1px",
             };
     }
 };
@@ -105,6 +101,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
         ref,
     ) => {
         const { theme } = useTheme();
+        console.log("render");
 
         const isClickable = !!onClick && !disabled;
 
@@ -216,4 +213,4 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     },
 );
 
-export default Card;
+export default memo(Card);

@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "jsx": "react-jsx",
+        "jsxImportSource": "react",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "skipLibCheck": true,
+        "types": ["vitest/globals", "@testing-library/jest-dom"]
+    },
+    "include": ["src/**/*", "vitest.config.ts", "test/**/*", "stories/**/*"]
+}
