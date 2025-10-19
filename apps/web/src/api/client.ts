@@ -1,4 +1,7 @@
-export const apiClient = async (endpoint: string, options?: RequestInit) => {
+export const apiClient = async <T>(
+    endpoint: string,
+    options?: RequestInit,
+): Promise<{ data: T }> => {
     const response = await fetch(`/api${endpoint}`, {
         headers: {
             "Content-Type": "application/json",
@@ -11,5 +14,8 @@ export const apiClient = async (endpoint: string, options?: RequestInit) => {
         throw new Error(`Error while making request: ${response.statusText}`);
     }
 
-    return response.json();
+    const res = await response.json();
+    return {
+        data: res.data as T,
+    };
 };
