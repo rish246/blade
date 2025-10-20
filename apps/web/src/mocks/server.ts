@@ -6,7 +6,7 @@ const projects = [...mockProjects];
 const users = [...mockUsers];
 export const projectHandlers = [
     http.get("/api/projects", async () => {
-        console.log(projects);
+        console.log({ projects });
         await delay(300);
         return HttpResponse.json({ data: projects });
     }),
