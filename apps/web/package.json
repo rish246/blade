@@ -7,11 +7,13 @@
         "dev": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "test": "vitest"
     },
     "dependencies": {
         "@blade/ui": "workspace:*",
         "@tanstack/react-query": "^5.90.3",
+        "idb": "^8.0.3",
         "react": "^19.1.1",
         "react-dom": "^19.1.1"
     },
@@ -24,11 +26,13 @@
         "eslint": "^9.36.0",
         "eslint-plugin-react-hooks": "^5.2.0",
         "eslint-plugin-react-refresh": "^0.4.22",
+        "fake-indexeddb": "^6.2.4",
         "globals": "^16.4.0",
         "msw": "^2.11.5",
         "typescript": "~5.9.3",
         "typescript-eslint": "^8.45.0",
-        "vite": "^7.1.7"
+        "vite": "^7.1.7",
+        "vite-plugin-pwa": "^1.1.0"
     },
     "msw": {
         "workerDirectory": [

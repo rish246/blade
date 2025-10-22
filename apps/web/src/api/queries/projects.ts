@@ -1,18 +1,51 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "../client";
 import type { Project } from "../../types";
-// const fetchProjects = async () => {
-//     const response = await fetch("/api/projects");
-//     if (!response.ok) throw new Error("Failed to fetch projects");
-//     const result = await response.json();
-//     return result.data;
-// };
+import { db } from "../../db";
+import { useEffect, useState } from "react";
 
 export const useProjects = () => {
-    return useQuery({
+    const [cachedData, setCachedData] = useState<{ data: Project[] } | null>(
+        null,
+    );
+
+    useEffect(() => {
+        db.projects.getAll().then((stored) => {
+            if (stored.length > 0) {
+                setCachedData({ data: stored.map((s) => s.data) });
+            }
+        });
+    }, []);
+
+    return useQuery<Project[], Error>({
         queryKey: ["projects"],
-        queryFn: () => apiClient("/projects"),
-        staleTime: 1000,
+        queryFn: async () => {
+            const response = await apiClient<Project[]>("/projects");
+            console.log({
+                dataFetchedFromServer: response.data,
+            });
+            for (const project of response.data) {
+                const hasProject = await db.projects.getById(project.id);
+                console.log({ hasProject });
+                if (hasProject) {
+                    await db.projects.save({
+                        id: project.id,
+                        syncStatus: "synced",
+                        data: project,
+                        lastSyncedAt: new Date(),
+                    });
+                } else {
+                    await db.projects.add({
+                        id: project.id,
+                        syncStatus: "synced",
+                        data: project,
+                        lastSyncedAt: new Date(),
+                    });
+                }
+            }
+            return response.data;
+        },
+        placeholderData: cachedData ? cachedData.data : undefined,
     });
 };
 
