@@ -91,6 +91,21 @@ export const useCreateProject = () => {
                 queryClient.setQueryData<Project[]>(["projects"], (old) => {
                     return old ? [...old, newProject] : [newProject];
                 });
+
+                queryClient.setQueryData<PendingOperationStore[]>(
+                    ["project-ops"],
+                    (old) => {
+                        const pendingOp: PendingOperationStore = {
+                            id: v4(),
+                            projectId: newProject.id,
+                            type: "create",
+                            data: newProject,
+                            retryCount: 0,
+                            timestamp: new Date(),
+                        };
+                        return old ? [...old, pendingOp] : [pendingOp];
+                    },
+                );
             }
         },
     });

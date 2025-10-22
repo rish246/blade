@@ -2,9 +2,12 @@ import { v4 } from "uuid";
 import { useCreateProject } from "../../api/queries/projects";
 import { Button } from "@blade/ui";
 
+const generateRandomProjectTitle = () => {
+    return;
+};
+
 const CreateProject = () => {
     const { mutate, isSuccess, isPending } = useCreateProject();
-    console.log({ mutate });
 
     return (
         <div>
@@ -14,7 +17,7 @@ const CreateProject = () => {
                 onClick={() => {
                     mutate({
                         id: v4(), // Temporary ID, should be handled by backend ideally
-                        title: "New Project",
+                        title: "New Project + " + v4(),
                         description: "Project description here...",
                         ownerId: "user-id-placeholder", // Replace with actual user I
                         visibility: "private",

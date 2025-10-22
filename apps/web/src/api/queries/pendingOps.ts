@@ -52,7 +52,9 @@ export const useFlushOps = () => {
     const { isOnline } = useOnline();
     const queryClient = useQueryClient();
     if (isOnline) {
-        flushOpsToApi();
+        flushOpsToApi().then(() => {
+            queryClient.invalidateQueries({ queryKey: ["project-ops"] });
+        });
     }
     return useMutation({
         mutationFn: async () => {
