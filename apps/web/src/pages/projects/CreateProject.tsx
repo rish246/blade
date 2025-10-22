@@ -1,5 +1,6 @@
 import { v4 } from "uuid";
 import { useCreateProject } from "../../api/queries/projects";
+import { Button } from "@blade/ui";
 
 const CreateProject = () => {
     const { mutate, isSuccess, isPending } = useCreateProject();
@@ -9,7 +10,7 @@ const CreateProject = () => {
         <div>
             {isPending && "Creating User"}
             {isSuccess && "Successfully Created User"}
-            <button
+            <Button
                 onClick={() => {
                     mutate({
                         id: v4(), // Temporary ID, should be handled by backend ideally
@@ -24,7 +25,7 @@ const CreateProject = () => {
                 }}
             >
                 Create New Project
-            </button>
+            </Button>
         </div>
     );
 };

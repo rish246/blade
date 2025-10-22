@@ -40,7 +40,7 @@ export const useProjects = () => {
     });
 };
 
-const createProjectInApi = async (project: Project) => {
+export const createProjectInApi = async (project: Project) => {
     console.log("Online - calling API");
     const response = await apiClient<Project>("/projects", {
         method: "POST",
@@ -50,7 +50,7 @@ const createProjectInApi = async (project: Project) => {
     return response;
 };
 
-const createProjectActionInDb = async (data: Project) => {
+export const createProjectActionInDb = async (data: Project) => {
     console.log("Offline - queuing");
     const projectId = v4();
     const projectCreateOp: PendingOperationStore = {
@@ -83,8 +83,11 @@ export const useCreateProject = () => {
         networkMode: "always",
         onSuccess: (newProject) => {
             if (isOnline) {
-                queryClient.invalidateQueries({ queryKey: ["projects"] });
+                queryClient.invalidateQueries({
+                    queryKey: ["projects"],
+                });
             } else {
+                // I have to update project ops... not the projects
                 queryClient.setQueryData<Project[]>(["projects"], (old) => {
                     return old ? [...old, newProject] : [newProject];
                 });

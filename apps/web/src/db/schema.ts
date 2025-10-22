@@ -15,7 +15,7 @@ export interface PendingOperationStore {
     id: string;
     projectId: string;
     type: OperationType;
-    data: Partial<Project>; // some data needs to be updated in the project
+    data: Project; // some data needs to be updated in the project
     retryCount: number;
     timestamp: Date;
 }

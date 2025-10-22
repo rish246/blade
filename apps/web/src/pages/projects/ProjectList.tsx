@@ -1,3 +1,4 @@
+import { Card, Stack } from "@blade/ui";
 import { useProjects } from "../../api/queries/projects";
 
 const ProjectList = () => {
@@ -9,7 +10,17 @@ const ProjectList = () => {
         <div>
             {isLoading && "Loading..."}
             {isError && error.message}
-            {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+            {data && (
+                <Stack direction="column" gap="40px">
+                    {data.map((item) => {
+                        return (
+                            <Card borderRadius="lg">
+                                {JSON.stringify(item, null, 4)}
+                            </Card>
+                        );
+                    })}
+                </Stack>
+            )}
         </div>
     );
 };
