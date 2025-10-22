@@ -1,4 +1,4 @@
-import { Card, Stack } from "@blade/ui";
+import { Card, Stack, Text } from "@blade/ui";
 import { useProjects } from "../../api/queries/projects";
 
 const ProjectList = () => {
@@ -14,8 +14,9 @@ const ProjectList = () => {
                 <Stack direction="column" gap="40px">
                     {data.map((item) => {
                         return (
-                            <Card borderRadius="lg">
-                                {JSON.stringify(item, null, 4)}
+                            <Card borderRadius="lg" fullWidth>
+                                <Text as="h2">{item.title}</Text>
+                                <Text>{item.description}</Text>
                             </Card>
                         );
                     })}

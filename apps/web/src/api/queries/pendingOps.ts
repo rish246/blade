@@ -51,11 +51,15 @@ export const flushOpsToApi = async () => {
 export const useFlushOps = () => {
     const { isOnline } = useOnline();
     const queryClient = useQueryClient();
+    if (isOnline) {
+        flushOpsToApi();
+    }
     return useMutation({
         mutationFn: async () => {
             if (!isOnline) {
                 return;
             }
+            console.log("Flusing Ops");
             await flushOpsToApi();
         },
         networkMode: "always",
