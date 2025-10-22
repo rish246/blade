@@ -1,7 +1,7 @@
 export const apiClient = async <T>(
     endpoint: string,
     options?: RequestInit,
-): Promise<{ data: T }> => {
+): Promise<T> => {
     const response = await fetch(`/api${endpoint}`, {
         headers: {
             "Content-Type": "application/json",
@@ -15,7 +15,5 @@ export const apiClient = async <T>(
     }
 
     const res = await response.json();
-    return {
-        data: res.data as T,
-    };
+    return res.data as T;
 };
