@@ -21,14 +21,23 @@ export const useProjects = () => {
         queryKey: ["projects"],
         queryFn: async () => {
             const response = await apiClient<Project[]>("/projects");
-
             for (const project of response.data) {
-                await db.projects.save({
-                    id: project.id,
-                    syncStatus: "synced",
-                    data: project,
-                    lastSyncedAt: new Date(),
-                });
+                const hasProject = await db.projects.getById(project.id);
+                if (hasProject) {
+                    await db.projects.save({
+                        id: project.id,
+                        syncStatus: "synced",
+                        data: project,
+                        lastSyncedAt: new Date(),
+                    });
+                } else {
+                    await db.projects.add({
+                        id: project.id,
+                        syncStatus: "synced",
+                        data: project,
+                        lastSyncedAt: new Date(),
+                    });
+                }
             }
             return response.data;
         },

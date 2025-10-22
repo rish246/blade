@@ -11,6 +11,7 @@ export default [
             "node_modules",
             "dist",
             "scripts/*.ts",
+            "web/dev-list",
         ],
     },
     {
