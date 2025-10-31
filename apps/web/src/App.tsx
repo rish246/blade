@@ -1,13 +1,11 @@
-import CreateProject from "./pages/projects/CreateProject";
-import ProjectList from "./pages/projects/ProjectList";
-import OfflineBanner from "./components/OfflineBanner";
+import { ThemeProvider } from "@blade/ui";
+import BladeApp from "./pages/projects/BladeApp";
+
 function App() {
     return (
-        <>
-            <OfflineBanner />
-            <CreateProject />
-            <ProjectList />
-        </>
+        <ThemeProvider initialTheme="light">
+            <BladeApp />
+        </ThemeProvider>
     );
 }
 
